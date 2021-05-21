@@ -15,14 +15,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         swipeCompareLayout = findViewById<SwipeCompareLayout>(R.id.swipe_compare).apply {
-            setSliderBarColorRes(R.color.purple_200)
-            setSliderIcon(R.drawable.ic_compare)
-            setSliderIconTint(R.color.purple_500)
+            setSliderBarColorRes(R.color.white)
             setSliderIconBackground(R.drawable.circle_background)
             val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
             setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
             setFragments(fragmentManager = supportFragmentManager, leftFragment = LeftFragment(), rightFragment = RightFragment())
-            setSliderBarSize(resources.getDimensionPixelSize(R.dimen.bar_width))
+            setSliderBarWidth(resources.getDimensionPixelSize(R.dimen.bar_width))
             setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
         }
     }

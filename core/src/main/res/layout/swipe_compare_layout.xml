@@ -9,7 +9,8 @@
     <FrameLayout
         android:id="@+id/fragment_left"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:layout_height="500dp"/>
 
     <FrameLayout
         android:id="@+id/fragment_right"
@@ -19,13 +20,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/slider"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
             android:id="@+id/selector_bar"
-            android:layout_width="10dp"
+            android:layout_width="2dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

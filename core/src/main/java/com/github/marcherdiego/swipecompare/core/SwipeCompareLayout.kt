@@ -20,7 +20,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
-
 @SuppressLint("ClickableViewAccessibility")
 class SwipeCompareLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -78,7 +77,6 @@ class SwipeCompareLayout @JvmOverloads constructor(
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         rightFragmentContainer.clipBounds = Rect(slider.x.toInt() + selectorWidth, 0, width, height)
-        rightFragmentContainer.invalidate()
         super.onDraw(canvas)
     }
 
@@ -99,8 +97,13 @@ class SwipeCompareLayout @JvmOverloads constructor(
         selectorBar.setBackgroundColor(ContextCompat.getColor(context, color))
     }
 
-    fun setSliderBarSize(width: Int) {
-        selectorBar.layoutParams.width = width
+    fun setSliderBarWidth(width: Int) {
+        if (width == 0) {
+            selectorBar.visibility = View.INVISIBLE
+        } else {
+            selectorBar.visibility = View.VISIBLE
+            selectorBar.layoutParams.width = width
+        }
     }
 
     fun setSliderIconColor(@ColorInt color: Int) {
