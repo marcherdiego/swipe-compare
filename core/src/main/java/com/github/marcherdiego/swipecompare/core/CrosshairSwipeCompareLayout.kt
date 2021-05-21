@@ -32,18 +32,24 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
     private var horizontalSelectorIconDy = 0f
     private var verticalSelectorIconDx = 0f
 
+    var unifiedControllers: Boolean = false
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     init {
         LayoutInflater.from(context).inflate(R.layout.crosshair_swipe_compare_layout, this)
 
         topLeftFragmentContainer = findViewById(R.id.fragment_top_left)
         topLeftFragmentContainer.id = topLeftFragmentContainer.hashCode()
-        
+
         topRightFragmentContainer = findViewById(R.id.fragment_top_right)
         topRightFragmentContainer.id = topRightFragmentContainer.hashCode()
-        
+
         bottomLeftFragmentContainer = findViewById(R.id.fragment_bottom_left)
         bottomLeftFragmentContainer.id = bottomLeftFragmentContainer.hashCode()
-        
+
         bottomRightFragmentContainer = findViewById(R.id.fragment_bottom_right)
         bottomRightFragmentContainer.id = bottomRightFragmentContainer.hashCode()
 
@@ -65,6 +71,10 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
                     dX = view.x - event.rawX
                     horizontalSelectorIconDy = (horizontalSelectorIcon?.y ?: 0f) - event.rawY
                     lastAction = MotionEvent.ACTION_DOWN
+                    if (unifiedControllers) {
+                        // This control should handle vertical slider as well
+                        verticalSlider?.dispatchTouchEvent(event)
+                    }
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val newX = event.rawX + dX
@@ -73,6 +83,10 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
                         view.x = newX
                         lastAction = MotionEvent.ACTION_MOVE
                         horizontalSelectorIcon?.y = newHorizontalSelectorIconY
+                        if (unifiedControllers) {
+                            // This control should handle vertical slider as well
+                            verticalSlider?.dispatchTouchEvent(event)
+                        }
                     }
                 }
                 MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {

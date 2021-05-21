@@ -37,6 +37,7 @@ class CrosshairSwipeView(activity: CrosshairSwipeActivity) : BaseActivityView(ac
         }
 
         crosshairSwipeCompareLayout2.apply {
+            unifiedControllers = true
             setSliderBarColorRes(R.color.white)
             setSliderIconBackground(R.drawable.circle_background)
             val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
