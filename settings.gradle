@@ -1,0 +1,3 @@
+rootProject.name = "Swipe Compare"
+include ':app'
+include ':core'
