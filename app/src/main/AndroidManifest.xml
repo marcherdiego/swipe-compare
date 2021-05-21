@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SwipeCompare">
+        <activity android:name="com.github.marcherdiego.swipecompare.ui.activities.HorizontalSwipeActivity"/>
+        <activity android:name="com.github.marcherdiego.swipecompare.ui.activities.VerticalSwipeActivity"/>
+        <activity android:name="com.github.marcherdiego.swipecompare.ui.activities.CrosshairSwipeActivity"/>
         <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
