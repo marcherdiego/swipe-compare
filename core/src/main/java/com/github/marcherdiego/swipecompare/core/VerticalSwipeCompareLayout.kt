@@ -20,7 +20,8 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
 
     private val topFragmentContainer: FrameLayout
     private val bottomFragmentContainer: FrameLayout
-
+    
+    private var verticalSelectorIconDx = 0f
     private var dY = 0f
     private var selectorHeight = 0
 
@@ -40,13 +41,16 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
                     dY = view.y - event.rawY
+                    verticalSelectorIconDx = (verticalSelectorIcon?.x ?: 0f) - event.rawX
                     lastAction = MotionEvent.ACTION_DOWN
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    val newVerticalSelectorIconX = event.rawX + verticalSelectorIconDx
                     val newY = event.rawY + dY
                     if (newY > -selectorHeight && newY < this.height - selectorHeight) {
                         view.y = newY
                         lastAction = MotionEvent.ACTION_MOVE
+                        verticalSelectorIcon?.x = newVerticalSelectorIconX
                     }
                 }
                 MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {

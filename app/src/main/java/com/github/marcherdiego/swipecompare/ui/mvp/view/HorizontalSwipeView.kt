@@ -11,6 +11,9 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
     private val horizontalSwipeCompareLayout: HorizontalSwipeCompareLayout = activity.findViewById(R.id.horizontal_swipe_compare)
 
     init {
+        activity.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
         horizontalSwipeCompareLayout.apply {
             setSliderBarColorRes(R.color.white)
             setSliderIconBackground(R.drawable.circle_background)

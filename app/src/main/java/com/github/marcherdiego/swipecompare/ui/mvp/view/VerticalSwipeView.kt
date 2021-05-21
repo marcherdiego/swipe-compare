@@ -11,6 +11,9 @@ class VerticalSwipeView(activity: VerticalSwipeActivity) : BaseActivityView(acti
     private val verticalSwipeCompareLayout: VerticalSwipeCompareLayout = activity.findViewById(R.id.vertical_swipe_compare)
 
     init {
+        activity.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
         verticalSwipeCompareLayout.apply {
             setSliderBarColorRes(R.color.white)
             setSliderIconBackground(R.drawable.circle_background)

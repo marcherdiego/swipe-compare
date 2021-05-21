@@ -13,6 +13,9 @@ class CrosshairSwipeView(activity: CrosshairSwipeActivity) : BaseActivityView(ac
     private val crosshairSwipeCompareLayout: CrosshairSwipeCompareLayout = activity.findViewById(R.id.crosshair_swipe_compare)
 
     init {
+        activity.supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+        }
         crosshairSwipeCompareLayout.apply {
             setSliderBarColorRes(R.color.white)
             setSliderIconBackground(R.drawable.circle_background)

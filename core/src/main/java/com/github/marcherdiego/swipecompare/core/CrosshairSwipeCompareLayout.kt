@@ -29,6 +29,9 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
     private var dY = 0f
     private var selectorHeight = 0
 
+    private var horizontalSelectorIconDy = 0f
+    private var verticalSelectorIconDx = 0f
+
     init {
         LayoutInflater.from(context).inflate(R.layout.crosshair_swipe_compare_layout, this)
 
@@ -53,13 +56,16 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
                     dX = view.x - event.rawX
+                    horizontalSelectorIconDy = (horizontalSelectorIcon?.y ?: 0f) - event.rawY
                     lastAction = MotionEvent.ACTION_DOWN
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val newX = event.rawX + dX
+                    val newHorizontalSelectorIconY = event.rawY + horizontalSelectorIconDy
                     if (newX > -selectorWidth && newX < this.width - selectorWidth) {
                         view.x = newX
                         lastAction = MotionEvent.ACTION_MOVE
+                        horizontalSelectorIcon?.y = newHorizontalSelectorIconY
                     }
                 }
                 MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
@@ -78,13 +84,16 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
                     dY = view.y - event.rawY
+                    verticalSelectorIconDx = (verticalSelectorIcon?.x ?: 0f) - event.rawX
                     lastAction = MotionEvent.ACTION_DOWN
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val newY = event.rawY + dY
+                    val newVerticalSelectorIconX = event.rawX + verticalSelectorIconDx
                     if (newY > -selectorHeight && newY < this.height - selectorHeight) {
                         view.y = newY
                         lastAction = MotionEvent.ACTION_MOVE
+                        verticalSelectorIcon?.x = newVerticalSelectorIconX
                     }
                 }
                 MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {

@@ -22,6 +22,7 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
     private val rightFragmentContainer: FrameLayout
 
     private var dX = 0f
+    private var horizontalSelectorIconDy = 0f
     private var selectorWidth = 0
 
     init {
@@ -42,13 +43,16 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
                     dX = view.x - event.rawX
+                    horizontalSelectorIconDy = (horizontalSelectorIcon?.y ?: 0f) - event.rawY
                     lastAction = MotionEvent.ACTION_DOWN
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val newX = event.rawX + dX
+                    val newHorizontalSelectorIconY = event.rawY + horizontalSelectorIconDy
                     if (newX > -selectorWidth && newX < this.width - selectorWidth) {
                         view.x = newX
                         lastAction = MotionEvent.ACTION_MOVE
+                        horizontalSelectorIcon?.y = newHorizontalSelectorIconY
                     }
                 }
                 MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
