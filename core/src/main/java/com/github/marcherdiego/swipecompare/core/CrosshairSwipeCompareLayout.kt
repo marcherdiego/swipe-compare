@@ -36,9 +36,16 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.crosshair_swipe_compare_layout, this)
 
         topLeftFragmentContainer = findViewById(R.id.fragment_top_left)
+        topLeftFragmentContainer.id = topLeftFragmentContainer.hashCode()
+        
         topRightFragmentContainer = findViewById(R.id.fragment_top_right)
+        topRightFragmentContainer.id = topRightFragmentContainer.hashCode()
+        
         bottomLeftFragmentContainer = findViewById(R.id.fragment_bottom_left)
+        bottomLeftFragmentContainer.id = bottomLeftFragmentContainer.hashCode()
+        
         bottomRightFragmentContainer = findViewById(R.id.fragment_bottom_right)
+        bottomRightFragmentContainer.id = bottomRightFragmentContainer.hashCode()
 
         horizontalSlider = findViewById(R.id.horizontal_slider)
         horizontalSelectorBar = horizontalSlider?.findViewById(R.id.horizontal_selector_bar)
@@ -130,12 +137,31 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         bottomRightFragment: Fragment
     ) {
         fragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_top_left, topLeftFragment)
-            replace(R.id.fragment_top_right, topRightFragment)
-            replace(R.id.fragment_bottom_left, bottomLeftFragment)
-            replace(R.id.fragment_bottom_right, bottomRightFragment)
+            replace(topLeftFragmentContainer.id, topLeftFragment)
+            replace(topRightFragmentContainer.id, topRightFragment)
+            replace(bottomLeftFragmentContainer.id, bottomLeftFragment)
+            replace(bottomRightFragmentContainer.id, bottomRightFragment)
             commit()
         }
+    }
+
+    fun setViews(
+        topLeftView: View,
+        topRightView: View,
+        bottomLeftView: View,
+        bottomRightView: View
+    ) {
+        topLeftFragmentContainer.removeAllViews()
+        topLeftFragmentContainer.addView(topLeftView)
+
+        topRightFragmentContainer.removeAllViews()
+        topRightFragmentContainer.addView(topRightView)
+
+        bottomLeftFragmentContainer.removeAllViews()
+        bottomLeftFragmentContainer.addView(bottomLeftView)
+
+        bottomRightFragmentContainer.removeAllViews()
+        bottomRightFragmentContainer.addView(bottomRightView)
     }
 
     fun setSliderBarHeight(height: Int) {

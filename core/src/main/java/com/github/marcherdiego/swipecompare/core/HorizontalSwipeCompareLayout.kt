@@ -29,7 +29,9 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.horizontal_swipe_compare_layout, this)
 
         leftFragmentContainer = findViewById(R.id.fragment_left)
+        leftFragmentContainer.id = leftFragmentContainer.hashCode()
         rightFragmentContainer = findViewById(R.id.fragment_right)
+        rightFragmentContainer.id = rightFragmentContainer.hashCode()
 
         horizontalSlider = findViewById(R.id.slider)
         horizontalSelectorBar = horizontalSlider?.findViewById(R.id.selector_bar)
@@ -77,10 +79,18 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
 
     fun setFragments(fragmentManager: FragmentManager, leftFragment: Fragment, rightFragment: Fragment) {
         fragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_left, leftFragment)
-            replace(R.id.fragment_right, rightFragment)
+            replace(leftFragmentContainer.id, leftFragment)
+            replace(rightFragmentContainer.id, rightFragment)
             commit()
         }
+    }
+    
+    fun setViews(leftView: View, rightView: View) {
+        leftFragmentContainer.removeAllViews()
+        leftFragmentContainer.addView(leftView)
+
+        rightFragmentContainer.removeAllViews()
+        rightFragmentContainer.addView(rightView)
     }
 
     fun setSliderBarWidth(width: Int) {

@@ -29,7 +29,11 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.vertical_swipe_compare_layout, this)
 
         topFragmentContainer = findViewById(R.id.fragment_top)
+        topFragmentContainer.id = topFragmentContainer.hashCode()
+        
         bottomFragmentContainer = findViewById(R.id.fragment_bottom)
+        bottomFragmentContainer.id = bottomFragmentContainer.hashCode()
+        
         verticalSlider = findViewById(R.id.slider)
         verticalSelectorBar = verticalSlider?.findViewById(R.id.selector_bar)
         verticalSelectorIcon = verticalSlider?.findViewById(R.id.selector_icon)
@@ -75,10 +79,18 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
 
     fun setFragments(fragmentManager: FragmentManager, topFragment: Fragment, bottomFragment: Fragment) {
         fragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_top, topFragment)
-            replace(R.id.fragment_bottom, bottomFragment)
+            replace(topFragmentContainer.id, topFragment)
+            replace(bottomFragmentContainer.id, bottomFragment)
             commit()
         }
+    }
+
+    fun setViews(topView: View, bottomView: View) {
+        topFragmentContainer.removeAllViews()
+        topFragmentContainer.addView(topView)
+
+        bottomFragmentContainer.removeAllViews()
+        bottomFragmentContainer.addView(bottomView)
     }
 
     fun setSliderBarHeight(height: Int) {
