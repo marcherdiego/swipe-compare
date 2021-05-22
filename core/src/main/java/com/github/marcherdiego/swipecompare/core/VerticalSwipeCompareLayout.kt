@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
@@ -21,10 +20,6 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
     private val topFragmentContainer: FrameLayout
     private val bottomFragmentContainer: FrameLayout
     
-    private var verticalSelectorIconDx = 0f
-    private var dY = 0f
-    private var selectorHeight = 0
-
     init {
         LayoutInflater.from(context).inflate(R.layout.vertical_swipe_compare_layout, this)
 
@@ -37,36 +32,10 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
         verticalSlider = findViewById(R.id.slider)
         verticalSelectorBar = verticalSlider?.findViewById(R.id.selector_bar)
         verticalSelectorIcon = verticalSlider?.findViewById(R.id.selector_icon)
-        verticalSelectorIcon?.post {
-            selectorHeight = (verticalSelectorIcon?.height ?: 0) / 2
-            invalidate()
-        }
-        verticalSlider?.setOnTouchListener { view, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    dY = view.y - event.rawY
-                    verticalSelectorIconDx = (verticalSelectorIcon?.x ?: 0f) - event.rawX
-                    lastAction = MotionEvent.ACTION_DOWN
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    val newVerticalSelectorIconX = event.rawX + verticalSelectorIconDx
-                    val newY = event.rawY + dY
-                    if (newY > -selectorHeight && newY < this.height - selectorHeight) {
-                        view.y = newY
-                        lastAction = MotionEvent.ACTION_MOVE
-                        verticalSelectorIcon?.x = newVerticalSelectorIconX
-                    }
-                }
-                MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
-                    return@setOnTouchListener false
-                }
-            }
-            invalidate()
-            return@setOnTouchListener true
-        }
 
         topFragmentContainer.clipToOutline = true
         bottomFragmentContainer.clipToOutline = true
+        init()
     }
 
     @SuppressLint("DrawAllocation")

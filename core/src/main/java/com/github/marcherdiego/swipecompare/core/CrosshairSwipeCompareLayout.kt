@@ -23,15 +23,6 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
     private val bottomLeftFragmentContainer: FrameLayout
     private val bottomRightFragmentContainer: FrameLayout
 
-    private var dX = 0f
-    private var selectorWidth = 0
-
-    private var dY = 0f
-    private var selectorHeight = 0
-
-    private var horizontalSelectorIconDy = 0f
-    private var verticalSelectorIconDx = 0f
-
     private var lastHorizontalSelectorIconY: Float? = null
     private var lastVerticalSelectorIconX: Float? = null
 
@@ -64,74 +55,17 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         verticalSelectorBar = verticalSlider?.findViewById(R.id.vertical_selector_bar)
         verticalSelectorIcon = verticalSlider?.findViewById(R.id.vertical_selector_icon)
 
-        horizontalSlider?.post {
-            selectorWidth = (horizontalSlider?.width ?: 0) / 2
-            invalidate()
-        }
-        horizontalSlider?.setOnTouchListener { view, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    dX = view.x - event.rawX
-                    horizontalSelectorIconDy = (horizontalSelectorIcon?.y ?: 0f) - event.rawY
-                    lastAction = MotionEvent.ACTION_DOWN
-                    if (unifiedControllers) {
-                        // This control should handle vertical slider as well
-                        verticalSlider?.dispatchTouchEvent(event)
-                    }
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    val newX = event.rawX + dX
-                    val newHorizontalSelectorIconY = event.rawY + horizontalSelectorIconDy
-                    if (newX > -selectorWidth && newX < this.width - selectorWidth) {
-                        view.x = newX
-                        lastAction = MotionEvent.ACTION_MOVE
-                        horizontalSelectorIcon?.y = newHorizontalSelectorIconY
-                        if (unifiedControllers) {
-                            // This control should handle vertical slider as well
-                            verticalSlider?.dispatchTouchEvent(event)
-                        }
-                    }
-                }
-                MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
-                    return@setOnTouchListener false
-                }
-            }
-            invalidate()
-            return@setOnTouchListener true
-        }
-
-        verticalSlider?.post {
-            selectorHeight = (verticalSlider?.height ?: 0) / 2
-            invalidate()
-        }
-        verticalSlider?.setOnTouchListener { view, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    dY = view.y - event.rawY
-                    verticalSelectorIconDx = (verticalSelectorIcon?.x ?: 0f) - event.rawX
-                    lastAction = MotionEvent.ACTION_DOWN
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    val newY = event.rawY + dY
-                    val newVerticalSelectorIconX = event.rawX + verticalSelectorIconDx
-                    if (newY > -selectorHeight && newY < this.height - selectorHeight) {
-                        view.y = newY
-                        lastAction = MotionEvent.ACTION_MOVE
-                        verticalSelectorIcon?.x = newVerticalSelectorIconX
-                    }
-                }
-                MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
-                    return@setOnTouchListener false
-                }
-            }
-            invalidate()
-            return@setOnTouchListener true
-        }
-
         topLeftFragmentContainer.clipToOutline = true
         topRightFragmentContainer.clipToOutline = true
         bottomLeftFragmentContainer.clipToOutline = true
         bottomRightFragmentContainer.clipToOutline = true
+        init()
+    }
+
+    override fun checkUnifiedController(event: MotionEvent) {
+        if (unifiedControllers) {
+            verticalSlider?.dispatchTouchEvent(event)
+        }
     }
 
     override fun invalidate() {

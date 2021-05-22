@@ -6,7 +6,6 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
@@ -21,10 +20,6 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
     private val leftFragmentContainer: FrameLayout
     private val rightFragmentContainer: FrameLayout
 
-    private var dX = 0f
-    private var horizontalSelectorIconDy = 0f
-    private var selectorWidth = 0
-
     init {
         LayoutInflater.from(context).inflate(R.layout.horizontal_swipe_compare_layout, this)
 
@@ -37,36 +32,9 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         horizontalSelectorBar = horizontalSlider?.findViewById(R.id.selector_bar)
         horizontalSelectorIcon = horizontalSlider?.findViewById(R.id.selector_icon)
 
-        horizontalSelectorIcon?.post {
-            selectorWidth = (horizontalSelectorIcon?.width ?: 0) / 2
-            invalidate()
-        }
-        horizontalSlider?.setOnTouchListener { view, event ->
-            when (event.actionMasked) {
-                MotionEvent.ACTION_DOWN -> {
-                    dX = view.x - event.rawX
-                    horizontalSelectorIconDy = (horizontalSelectorIcon?.y ?: 0f) - event.rawY
-                    lastAction = MotionEvent.ACTION_DOWN
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    val newX = event.rawX + dX
-                    val newHorizontalSelectorIconY = event.rawY + horizontalSelectorIconDy
-                    if (newX > -selectorWidth && newX < this.width - selectorWidth) {
-                        view.x = newX
-                        lastAction = MotionEvent.ACTION_MOVE
-                        horizontalSelectorIcon?.y = newHorizontalSelectorIconY
-                    }
-                }
-                MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
-                    return@setOnTouchListener false
-                }
-            }
-            invalidate()
-            return@setOnTouchListener true
-        }
-
         leftFragmentContainer.clipToOutline = true
         rightFragmentContainer.clipToOutline = true
+        init()
     }
 
     @SuppressLint("DrawAllocation")

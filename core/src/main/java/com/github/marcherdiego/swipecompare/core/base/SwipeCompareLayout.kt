@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.PorterDuff.Mode
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorInt
@@ -26,11 +27,79 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
     protected var verticalSelectorBar: View? = null
     protected var verticalSelectorIcon: ImageView? = null
 
-    protected var lastAction = 0
+    private var lastAction = 0
 
-    init {
+    private var dX = 0f
+    protected var selectorWidth = 0
+
+    private var dY = 0f
+    protected var selectorHeight = 0
+
+    private var horizontalSelectorIconDy = 0f
+    private var verticalSelectorIconDx = 0f
+
+    protected fun init() {
+        horizontalSlider?.post {
+            selectorWidth = (horizontalSelectorIcon?.width ?: 0) / 2
+            invalidate()
+        }
+        horizontalSlider?.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    dX = view.x - event.rawX
+                    horizontalSelectorIconDy = (horizontalSelectorIcon?.y ?: 0f) - event.rawY
+                    lastAction = MotionEvent.ACTION_DOWN
+                    checkUnifiedController(event)
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val newX = event.rawX + dX
+                    val newHorizontalSelectorIconY = event.rawY + horizontalSelectorIconDy
+                    if (newX > -selectorWidth && newX < this.width - selectorWidth) {
+                        view.x = newX
+                        lastAction = MotionEvent.ACTION_MOVE
+                        horizontalSelectorIcon?.y = newHorizontalSelectorIconY
+                        checkUnifiedController(event)
+                    }
+                }
+                MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
+                    return@setOnTouchListener false
+                }
+            }
+            invalidate()
+            return@setOnTouchListener true
+        }
+        verticalSlider?.post {
+            selectorHeight = (verticalSlider?.height ?: 0) / 2
+            invalidate()
+        }
+        verticalSlider?.setOnTouchListener { view, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    dY = view.y - event.rawY
+                    verticalSelectorIconDx = (verticalSelectorIcon?.x ?: 0f) - event.rawX
+                    lastAction = MotionEvent.ACTION_DOWN
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val newY = event.rawY + dY
+                    val newVerticalSelectorIconX = event.rawX + verticalSelectorIconDx
+                    if (newY > -selectorHeight && newY < this.height - selectorHeight) {
+                        view.y = newY
+                        lastAction = MotionEvent.ACTION_MOVE
+                        verticalSelectorIcon?.x = newVerticalSelectorIconX
+                    }
+                }
+                MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
+                    return@setOnTouchListener false
+                }
+            }
+            invalidate()
+            return@setOnTouchListener true
+        }
+
         setWillNotDraw(false)
     }
+
+    open fun checkUnifiedController(event: MotionEvent) {}
 
     fun setSliderBarColor(@ColorInt color: Int) {
         horizontalSelectorBar?.setBackgroundColor(color)
