@@ -98,7 +98,9 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
             horizontalSelectorBar?.visibility = View.INVISIBLE
         } else {
             horizontalSelectorBar?.visibility = View.VISIBLE
-            horizontalSelectorBar?.layoutParams?.width = width
+            horizontalSelectorBar?.layoutParams = horizontalSelectorBar?.layoutParams?.apply {
+                this.width = width
+            }
         }
     }
 }
