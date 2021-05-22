@@ -6,38 +6,22 @@ import com.github.marcherdiego.swipecompare.R
 import com.github.marcherdiego.swipecompare.core.CrosshairSwipeCompareLayout
 import com.nerdscorner.mvplib.events.view.BaseActivityView
 import com.github.marcherdiego.swipecompare.ui.activities.CrosshairSwipeActivity
-import com.github.marcherdiego.swipecompare.ui.fragments.BottomLeftFragment
-import com.github.marcherdiego.swipecompare.ui.fragments.BottomRightFragment
-import com.github.marcherdiego.swipecompare.ui.fragments.TopLeftFragment
-import com.github.marcherdiego.swipecompare.ui.fragments.TopRightFragment
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class CrosshairSwipeView(activity: CrosshairSwipeActivity) : BaseActivityView(activity) {
-    private val crosshairSwipeCompareLayout1: CrosshairSwipeCompareLayout = activity.findViewById(R.id.crosshair_swipe_compare_1)
-    private val crosshairSwipeCompareLayout2: CrosshairSwipeCompareLayout = activity.findViewById(R.id.crosshair_swipe_compare_2)
+
+    private val crosshairSwipeCompareLayout: CrosshairSwipeCompareLayout = activity.findViewById(R.id.crosshair_swipe_compare)
+    private val combinedControlsSwitch: SwitchMaterial = activity.findViewById(R.id.combined_controls_switch)
 
     init {
         activity.supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
         }
-        crosshairSwipeCompareLayout1.apply {
-            setSliderBarColorRes(R.color.white)
-            setSliderIconBackground(R.drawable.circle_background)
-            val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
-            setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
-            setFragments(
-                fragmentManager = activity.supportFragmentManager,
-                topLeftFragment = TopLeftFragment(),
-                topRightFragment = TopRightFragment(),
-                bottomLeftFragment = BottomLeftFragment(),
-                bottomRightFragment = BottomRightFragment()
-            )
-            setSliderBarHeight(resources.getDimensionPixelSize(R.dimen.bar_height))
-            setSliderBarWidth(resources.getDimensionPixelSize(R.dimen.bar_width))
-            setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
+        combinedControlsSwitch.setOnCheckedChangeListener { _, isChecked ->
+            bus.post(CombinedControlsCheckedChangedEvent(isChecked))
         }
 
-        crosshairSwipeCompareLayout2.apply {
-            unifiedControllers = true
+        crosshairSwipeCompareLayout.apply {
             setSliderBarColorRes(R.color.white)
             setSliderIconBackground(R.drawable.circle_background)
             val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
@@ -65,4 +49,10 @@ class CrosshairSwipeView(activity: CrosshairSwipeActivity) : BaseActivityView(ac
             setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
         }
     }
+    
+    fun setUnifiedControls(unifiedControls: Boolean) {
+        crosshairSwipeCompareLayout.unifiedControllers = unifiedControls
+    }
+
+    class CombinedControlsCheckedChangedEvent(val isChecked: Boolean)
 }

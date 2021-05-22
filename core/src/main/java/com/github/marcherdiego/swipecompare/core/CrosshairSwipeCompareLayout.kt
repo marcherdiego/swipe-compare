@@ -32,6 +32,9 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
     private var horizontalSelectorIconDy = 0f
     private var verticalSelectorIconDx = 0f
 
+    private var lastHorizontalSelectorIconY: Float? = null
+    private var lastVerticalSelectorIconX: Float? = null
+
     var unifiedControllers: Boolean = false
         set(value) {
             field = value
@@ -129,6 +132,32 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         topRightFragmentContainer.clipToOutline = true
         bottomLeftFragmentContainer.clipToOutline = true
         bottomRightFragmentContainer.clipToOutline = true
+    }
+
+    override fun invalidate() {
+        if (unifiedControllers) {
+            val intersectionX = horizontalSlider?.x ?: 0f
+            val intersectionY = verticalSlider?.y ?: 0f
+
+            // Save previous values to restore them
+            lastHorizontalSelectorIconY = horizontalSelectorIcon?.y
+            lastVerticalSelectorIconX = verticalSelectorIcon?.x
+
+            // Set new values
+            horizontalSelectorIcon?.y = intersectionY
+            verticalSelectorIcon?.x = intersectionX
+        } else {
+            // Restore previous values and unset them
+            lastHorizontalSelectorIconY?.let {
+                horizontalSelectorIcon?.y = it
+                lastHorizontalSelectorIconY = null
+            }
+            lastVerticalSelectorIconX?.let {
+                verticalSelectorIcon?.x = it
+                lastVerticalSelectorIconX = null
+            }
+        }
+        super.invalidate()
     }
 
     @SuppressLint("DrawAllocation")

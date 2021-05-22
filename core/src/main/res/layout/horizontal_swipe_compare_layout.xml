@@ -10,12 +10,15 @@
         android:id="@+id/fragment_left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_height="500dp"/>
+        tools:layout_height="100dp"
+        tools:layout_width="100dp"/>
 
     <FrameLayout
         android:id="@+id/fragment_right"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        tools:layout_height="100dp"
+        tools:layout_width="100dp"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/slider"
