@@ -8,7 +8,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
@@ -17,11 +16,6 @@ import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
 class CrosshairSwipeCompareLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : SwipeCompareLayout(context, attrs, defStyleAttr) {
-
-    private val topLeftFragmentContainer: FrameLayout
-    private val topRightFragmentContainer: FrameLayout
-    private val bottomLeftFragmentContainer: FrameLayout
-    private val bottomRightFragmentContainer: FrameLayout
 
     private var lastHorizontalSelectorIconY: Float? = null
     private var lastVerticalSelectorIconX: Float? = null
@@ -34,31 +28,6 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.crosshair_swipe_compare_layout, this)
-
-        topLeftFragmentContainer = findViewById(R.id.fragment_top_left)
-        topLeftFragmentContainer.id = topLeftFragmentContainer.hashCode()
-
-        topRightFragmentContainer = findViewById(R.id.fragment_top_right)
-        topRightFragmentContainer.id = topRightFragmentContainer.hashCode()
-
-        bottomLeftFragmentContainer = findViewById(R.id.fragment_bottom_left)
-        bottomLeftFragmentContainer.id = bottomLeftFragmentContainer.hashCode()
-
-        bottomRightFragmentContainer = findViewById(R.id.fragment_bottom_right)
-        bottomRightFragmentContainer.id = bottomRightFragmentContainer.hashCode()
-
-        horizontalSlider = findViewById(R.id.horizontal_slider)
-        horizontalSelectorBar = horizontalSlider?.findViewById(R.id.horizontal_selector_bar)
-        horizontalSelectorIcon = horizontalSlider?.findViewById(R.id.horizontal_selector_icon)
-
-        verticalSlider = findViewById(R.id.vertical_slider)
-        verticalSelectorBar = verticalSlider?.findViewById(R.id.vertical_selector_bar)
-        verticalSelectorIcon = verticalSlider?.findViewById(R.id.vertical_selector_icon)
-
-        topLeftFragmentContainer.clipToOutline = true
-        topRightFragmentContainer.clipToOutline = true
-        bottomLeftFragmentContainer.clipToOutline = true
-        bottomRightFragmentContainer.clipToOutline = true
         init()
     }
 
@@ -98,11 +67,11 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         val bottomLine = (verticalSlider?.y?.toInt() ?: 0) + selectorHeight
         val rightLine = (horizontalSlider?.x?.toInt() ?: 0) + selectorWidth
-        topLeftFragmentContainer.clipBounds = Rect(0, 0, rightLine, bottomLine)
-        topRightFragmentContainer.clipBounds = Rect(rightLine, 0, width, bottomLine)
+        topLeftFragmentContainer?.clipBounds = Rect(0, 0, rightLine, bottomLine)
+        topRightFragmentContainer?.clipBounds = Rect(rightLine, 0, width, bottomLine)
 
-        bottomLeftFragmentContainer.clipBounds = Rect(0, bottomLine, rightLine, height)
-        bottomRightFragmentContainer.clipBounds = Rect(rightLine, bottomLine, width, height)
+        bottomLeftFragmentContainer?.clipBounds = Rect(0, bottomLine, rightLine, height)
+        bottomRightFragmentContainer?.clipBounds = Rect(rightLine, bottomLine, width, height)
         super.onDraw(canvas)
     }
 
@@ -114,10 +83,10 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         bottomRightFragment: Fragment
     ) {
         fragmentManager.beginTransaction().apply {
-            replace(topLeftFragmentContainer.id, topLeftFragment)
-            replace(topRightFragmentContainer.id, topRightFragment)
-            replace(bottomLeftFragmentContainer.id, bottomLeftFragment)
-            replace(bottomRightFragmentContainer.id, bottomRightFragment)
+            replace(topLeftFragmentContainer?.id ?: return, topLeftFragment)
+            replace(topRightFragmentContainer?.id ?: return, topRightFragment)
+            replace(bottomLeftFragmentContainer?.id ?: return, bottomLeftFragment)
+            replace(bottomRightFragmentContainer?.id ?: return, bottomRightFragment)
             commit()
         }
     }
@@ -128,17 +97,17 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         bottomLeftView: View,
         bottomRightView: View
     ) {
-        topLeftFragmentContainer.removeAllViews()
-        topLeftFragmentContainer.addView(topLeftView)
+        topLeftFragmentContainer?.removeAllViews()
+        topLeftFragmentContainer?.addView(topLeftView)
 
-        topRightFragmentContainer.removeAllViews()
-        topRightFragmentContainer.addView(topRightView)
+        topRightFragmentContainer?.removeAllViews()
+        topRightFragmentContainer?.addView(topRightView)
 
-        bottomLeftFragmentContainer.removeAllViews()
-        bottomLeftFragmentContainer.addView(bottomLeftView)
+        bottomLeftFragmentContainer?.removeAllViews()
+        bottomLeftFragmentContainer?.addView(bottomLeftView)
 
-        bottomRightFragmentContainer.removeAllViews()
-        bottomRightFragmentContainer.addView(bottomRightView)
+        bottomRightFragmentContainer?.removeAllViews()
+        bottomRightFragmentContainer?.addView(bottomRightView)
     }
 
     fun setSliderBarHeight(height: Int) {

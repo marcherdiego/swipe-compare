@@ -7,17 +7,24 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.github.marcherdiego.swipecompare.core.R
 
 @SuppressLint("ClickableViewAccessibility")
 abstract class SwipeCompareLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+    protected var topLeftFragmentContainer: FrameLayout? = null
+    protected var topRightFragmentContainer: FrameLayout? = null
+    protected var bottomLeftFragmentContainer: FrameLayout? = null
+    protected var bottomRightFragmentContainer: FrameLayout? = null
 
     protected var horizontalSlider: ConstraintLayout? = null
     protected var horizontalSelectorBar: View? = null
@@ -39,6 +46,30 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
     private var verticalSelectorIconDx = 0f
 
     protected fun init() {
+        topLeftFragmentContainer = findViewById(R.id.fragment_top_left)
+        topLeftFragmentContainer?.id = topLeftFragmentContainer.hashCode()
+
+        topRightFragmentContainer = findViewById(R.id.fragment_top_right)
+        topRightFragmentContainer?.id = topRightFragmentContainer.hashCode()
+
+        bottomLeftFragmentContainer = findViewById(R.id.fragment_bottom_left)
+        bottomLeftFragmentContainer?.id = bottomLeftFragmentContainer.hashCode()
+
+        bottomRightFragmentContainer = findViewById(R.id.fragment_bottom_right)
+        bottomRightFragmentContainer?.id = bottomRightFragmentContainer.hashCode()
+
+        horizontalSlider = findViewById(R.id.horizontal_slider)
+        horizontalSelectorBar = horizontalSlider?.findViewById(R.id.horizontal_selector_bar)
+        horizontalSelectorIcon = horizontalSlider?.findViewById(R.id.horizontal_selector_icon)
+
+        verticalSlider = findViewById(R.id.vertical_slider)
+        verticalSelectorBar = verticalSlider?.findViewById(R.id.vertical_selector_bar)
+        verticalSelectorIcon = verticalSlider?.findViewById(R.id.vertical_selector_icon)
+
+        topLeftFragmentContainer?.clipToOutline = true
+        topRightFragmentContainer?.clipToOutline = true
+        bottomLeftFragmentContainer?.clipToOutline = true
+        bottomRightFragmentContainer?.clipToOutline = true
         horizontalSlider?.post {
             selectorWidth = (horizontalSelectorIcon?.width ?: 0) / 2
             invalidate()
