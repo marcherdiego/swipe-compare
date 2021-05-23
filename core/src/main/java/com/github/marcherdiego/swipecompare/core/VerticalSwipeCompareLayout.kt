@@ -23,7 +23,7 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
-        val bottomLine = (verticalSlider?.y?.toInt() ?: 0) + selectorHeight
+        val bottomLine = (verticalSlider?.y?.toInt() ?: 0) + verticalSelectorHeight
         topLeftFragmentContainer?.clipBounds = Rect(0, 0, width, bottomLine)
         bottomLeftFragmentContainer?.clipBounds = Rect(0, bottomLine, width, height)
         super.onDraw(canvas)

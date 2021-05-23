@@ -65,8 +65,8 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
-        val bottomLine = (verticalSlider?.y?.toInt() ?: 0) + selectorHeight
-        val rightLine = (horizontalSlider?.x?.toInt() ?: 0) + selectorWidth
+        val bottomLine = (verticalSlider?.y?.toInt() ?: 0) + verticalSelectorHeight
+        val rightLine = (horizontalSlider?.x?.toInt() ?: 0) + horizontalSelectorWidth
         topLeftFragmentContainer?.clipBounds = Rect(0, 0, rightLine, bottomLine)
         topRightFragmentContainer?.clipBounds = Rect(rightLine, 0, width, bottomLine)
 

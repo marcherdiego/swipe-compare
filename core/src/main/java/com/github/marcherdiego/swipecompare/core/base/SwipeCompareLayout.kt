@@ -34,13 +34,16 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
     protected var verticalSelectorBar: View? = null
     protected var verticalSelectorIcon: ImageView? = null
 
-    private var lastAction = 0
+    private var lastHorizontalAction = 0
+    private var lastVerticalAction = 0
 
     private var dX = 0f
-    protected var selectorWidth = 0
+    protected var horizontalSelectorWidth = 0
+    protected var horizontalSelectorHeight = 0
 
     private var dY = 0f
-    protected var selectorHeight = 0
+    protected var verticalSelectorWidth = 0
+    protected var verticalSelectorHeight = 0
 
     private var horizontalSelectorIconDy = 0f
     private var verticalSelectorIconDx = 0f
@@ -71,7 +74,8 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
         bottomLeftFragmentContainer?.clipToOutline = true
         bottomRightFragmentContainer?.clipToOutline = true
         horizontalSlider?.post {
-            selectorWidth = (horizontalSelectorIcon?.width ?: 0) / 2
+            horizontalSelectorWidth = (horizontalSelectorIcon?.width ?: 0) / 2
+            horizontalSelectorHeight = horizontalSelectorIcon?.height ?: 0
             invalidate()
         }
         horizontalSlider?.setOnTouchListener { view, event ->
@@ -79,20 +83,19 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
                 MotionEvent.ACTION_DOWN -> {
                     dX = view.x - event.rawX
                     horizontalSelectorIconDy = (horizontalSelectorIcon?.y ?: 0f) - event.rawY
-                    lastAction = MotionEvent.ACTION_DOWN
+                    lastHorizontalAction = MotionEvent.ACTION_DOWN
                     checkUnifiedController(event)
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val newX = event.rawX + dX
-                    val newHorizontalSelectorIconY = event.rawY + horizontalSelectorIconDy
-                    if (newX > -selectorWidth && newX < this.width - selectorWidth) {
+                    if (newX > -horizontalSelectorWidth && newX < measuredWidth - horizontalSelectorWidth) {
                         view.x = newX
-                        lastAction = MotionEvent.ACTION_MOVE
-                        horizontalSelectorIcon?.y = newHorizontalSelectorIconY
+                        lastHorizontalAction = MotionEvent.ACTION_MOVE
                         checkUnifiedController(event)
                     }
+                    horizontalSelectorIcon?.y = adjustToBounds(event.rawY + horizontalSelectorIconDy, 0, measuredHeight - horizontalSelectorHeight)
                 }
-                MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
+                MotionEvent.ACTION_UP -> if (lastHorizontalAction != MotionEvent.ACTION_DOWN) {
                     return@setOnTouchListener false
                 }
             }
@@ -100,7 +103,8 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
             return@setOnTouchListener true
         }
         verticalSlider?.post {
-            selectorHeight = (verticalSlider?.height ?: 0) / 2
+            verticalSelectorWidth = verticalSelectorIcon?.width ?: 0
+            verticalSelectorHeight = (verticalSelectorIcon?.height ?: 0) / 2
             invalidate()
         }
         verticalSlider?.setOnTouchListener { view, event ->
@@ -108,18 +112,17 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
                 MotionEvent.ACTION_DOWN -> {
                     dY = view.y - event.rawY
                     verticalSelectorIconDx = (verticalSelectorIcon?.x ?: 0f) - event.rawX
-                    lastAction = MotionEvent.ACTION_DOWN
+                    lastVerticalAction = MotionEvent.ACTION_DOWN
                 }
                 MotionEvent.ACTION_MOVE -> {
                     val newY = event.rawY + dY
-                    val newVerticalSelectorIconX = event.rawX + verticalSelectorIconDx
-                    if (newY > -selectorHeight && newY < this.height - selectorHeight) {
+                    if (newY > -verticalSelectorHeight && newY < measuredHeight - verticalSelectorHeight) {
                         view.y = newY
-                        lastAction = MotionEvent.ACTION_MOVE
-                        verticalSelectorIcon?.x = newVerticalSelectorIconX
+                        lastVerticalAction = MotionEvent.ACTION_MOVE
                     }
+                    verticalSelectorIcon?.x = adjustToBounds(event.rawX + verticalSelectorIconDx, 0, measuredWidth - verticalSelectorWidth)
                 }
-                MotionEvent.ACTION_UP -> if (lastAction != MotionEvent.ACTION_DOWN) {
+                MotionEvent.ACTION_UP -> if (lastVerticalAction != MotionEvent.ACTION_DOWN) {
                     return@setOnTouchListener false
                 }
             }
@@ -130,7 +133,7 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
         setWillNotDraw(false)
     }
 
-    open fun checkUnifiedController(event: MotionEvent) {}
+    internal open fun checkUnifiedController(event: MotionEvent) {}
 
     fun setSliderBarColor(@ColorInt color: Int) {
         horizontalSelectorBar?.setBackgroundColor(color)
@@ -188,5 +191,13 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
     fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int) {
         horizontalSelectorIcon?.setPadding(left, top, right, bottom)
         verticalSelectorIcon?.setPadding(left, top, right, bottom)
+    }
+
+    private fun adjustToBounds(value: Float, lowerBound: Int, upperBound: Int): Float {
+        return when {
+            value < lowerBound -> lowerBound.toFloat()
+            value > upperBound -> upperBound.toFloat()
+            else -> value
+        }
     }
 }

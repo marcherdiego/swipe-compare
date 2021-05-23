@@ -23,7 +23,7 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
 
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
-        val rightLine = (horizontalSlider?.x?.toInt() ?: 0) + selectorWidth
+        val rightLine = (horizontalSlider?.x?.toInt() ?: 0) + horizontalSelectorWidth
         topLeftFragmentContainer?.clipBounds = Rect(0, 0, rightLine, height)
         topRightFragmentContainer?.clipBounds = Rect(rightLine, 0, width, height)
         super.onDraw(canvas)
