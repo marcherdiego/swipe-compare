@@ -29,7 +29,7 @@ class HorizontalSwipePresenter(view: HorizontalSwipeView, model: HorizontalSwipe
         try {
             view.setSliderPosition(event.value?.toFloat() ?: return)
         } catch (e: Exception) {
-            e.printStackTrace()
+            view.setSliderPosition(0f)
         }
     }
     

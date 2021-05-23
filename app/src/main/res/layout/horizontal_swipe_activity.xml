@@ -39,16 +39,24 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5"/>
 
-    <EditText
-        android:id="@+id/slider_position"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/slider_position_layout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Slider X"
-        android:inputType="number"
-        android:padding="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/fixed_slider_icon_switch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontal_divider"/>
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_divider">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/slider_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Slider X"
+            android:inputType="number"
+            android:text="0"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/fixed_slider_icon_switch"
@@ -63,7 +71,8 @@
         android:id="@+id/horizontal_swipe_compare_2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fixed_slider_icon_switch"/>
+        app:layout_constraintTop_toBottomOf="@+id/slider_position_layout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

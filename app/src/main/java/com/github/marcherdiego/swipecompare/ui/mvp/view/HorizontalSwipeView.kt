@@ -2,7 +2,6 @@ package com.github.marcherdiego.swipecompare.ui.mvp.view
 
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ImageView.ScaleType.CENTER_CROP
 import android.widget.TextView
@@ -14,6 +13,7 @@ import com.github.marcherdiego.swipecompare.ui.fragments.LeftFragment
 import com.github.marcherdiego.swipecompare.ui.fragments.RightFragment
 import com.google.android.material.slider.Slider
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textfield.TextInputEditText
 
 class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(activity) {
 
@@ -22,7 +22,7 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
     private val barWidthSliderLabel: TextView = activity.findViewById(R.id.bar_width_slider_label)
     private val barWidthSlider: Slider = activity.findViewById(R.id.bar_width_slider)
 
-    private val sliderPosition: EditText = activity.findViewById(R.id.slider_position)
+    private val sliderPosition: TextInputEditText = activity.findViewById(R.id.slider_position)
     private val fixedSliderIconSwitch: SwitchMaterial = activity.findViewById(R.id.fixed_slider_icon_switch)
     
     private val textWatcher = object : TextWatcher {
@@ -36,7 +36,7 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
             sliderPosition.removeTextChangedListener(this)
             bus.post(SliderPositionValueChangedEvent(s?.toString()))
             sliderPosition.addTextChangedListener(this)
-            sliderPosition.setSelection(sliderPosition.text.length)
+            sliderPosition.setSelection(sliderPosition.text?.length ?: 0)
         }
     }
 
@@ -82,7 +82,7 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
                 sliderPosition.removeTextChangedListener(textWatcher)
                 bus.post(SliderPositionChangedEvent(it))
                 sliderPosition.addTextChangedListener(textWatcher)
-                sliderPosition.setSelection(sliderPosition.text.length)
+                sliderPosition.setSelection(sliderPosition.text?.length ?: 0)
             }
         }
     }
