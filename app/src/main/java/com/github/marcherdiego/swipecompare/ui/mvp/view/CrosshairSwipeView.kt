@@ -1,5 +1,6 @@
 package com.github.marcherdiego.swipecompare.ui.mvp.view
 
+import android.util.Log
 import android.widget.ImageView
 import android.widget.ImageView.ScaleType.CENTER_CROP
 import com.github.marcherdiego.swipecompare.R
@@ -47,9 +48,13 @@ class CrosshairSwipeView(activity: CrosshairSwipeActivity) : BaseActivityView(ac
             setSliderBarHeight(resources.getDimensionPixelSize(R.dimen.bar_height))
             setSliderBarWidth(resources.getDimensionPixelSize(R.dimen.bar_width))
             setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
+
+            setSliderPositionChangedListener { x, y ->
+                Log.v("CrosshairSwipeView", "x=$x, y=$y")
+            }
         }
     }
-    
+
     fun setUnifiedControls(unifiedControls: Boolean) {
         crosshairSwipeCompareLayout.unifiedControllers = unifiedControls
     }

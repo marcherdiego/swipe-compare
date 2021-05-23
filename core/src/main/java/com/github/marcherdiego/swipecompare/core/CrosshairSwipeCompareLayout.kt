@@ -3,11 +3,17 @@ package com.github.marcherdiego.swipecompare.core
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.PorterDuff.Mode
 import android.graphics.Rect
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
@@ -126,5 +132,77 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
             horizontalSelectorBar?.visibility = View.VISIBLE
             horizontalSelectorBar?.layoutParams?.width = width
         }
+    }
+    
+    fun setSliderPosition(sliderX: Float, sliderY: Float) {
+        horizontalSlider?.x = sliderX
+        verticalSlider?.y = sliderY
+        invalidate()
+    }
+
+    fun setSliderPositionChangedListener(listener: (Float, Float) -> Unit) {
+        crosshairSliderValueListener = listener
+    }
+
+    override fun setSliderBarColor(@ColorInt color: Int) {
+        horizontalSelectorBar?.setBackgroundColor(color)
+        verticalSelectorBar?.setBackgroundColor(color)
+    }
+
+    override fun setSliderBarColorRes(@ColorRes color: Int) {
+        horizontalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
+        verticalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
+    }
+
+    override fun setSliderIconColor(@ColorInt color: Int) {
+        horizontalSelectorIcon?.setBackgroundColor(color)
+        verticalSelectorIcon?.setBackgroundColor(color)
+    }
+
+    override fun setSliderIconColorRes(@ColorRes color: Int) {
+        horizontalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
+        verticalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
+    }
+
+    override fun setSliderIconSize(width: Int, height: Int) {
+        horizontalSelectorIcon?.layoutParams?.width = width
+        horizontalSelectorIcon?.layoutParams?.height = height
+
+        verticalSelectorIcon?.layoutParams?.width = width
+        verticalSelectorIcon?.layoutParams?.height = height
+    }
+
+    override fun setSliderIconBackground(@DrawableRes background: Int) {
+        horizontalSelectorIcon?.setBackgroundResource(background)
+        verticalSelectorIcon?.setBackgroundResource(background)
+    }
+
+    override fun setSliderIconBackground(background: Drawable) {
+        horizontalSelectorIcon?.background = background
+        verticalSelectorIcon?.background = background
+    }
+
+    override fun setSliderIcon(@DrawableRes icon: Int) {
+        horizontalSelectorIcon?.setImageResource(icon)
+        verticalSelectorIcon?.setImageResource(icon)
+    }
+
+    override fun setSliderIcon(icon: Drawable) {
+        horizontalSelectorIcon?.setImageDrawable(icon)
+        verticalSelectorIcon?.setImageDrawable(icon)
+    }
+
+    override fun setSliderIconTint(@ColorRes color: Int) {
+        horizontalSelectorIcon?.setColorFilter(ContextCompat.getColor(context, color), Mode.SRC_IN)
+        verticalSelectorIcon?.setColorFilter(ContextCompat.getColor(context, color), Mode.SRC_IN)
+    }
+
+    override fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        horizontalSelectorIcon?.setPadding(left, top, right, bottom)
+        verticalSelectorIcon?.setPadding(left, top, right, bottom)
+    }
+
+    override fun setFixedSliderIcon(fixed: Boolean) {
+        unifiedControllers = fixed
     }
 }

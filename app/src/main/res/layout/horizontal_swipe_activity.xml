@@ -39,12 +39,31 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5"/>
 
+    <EditText
+        android:id="@+id/slider_position"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="Slider X"
+        android:inputType="number"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_divider"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/fixed_slider_icon_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Fixed slider icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_divider"/>
+
     <com.github.marcherdiego.swipecompare.core.HorizontalSwipeCompareLayout
         android:id="@+id/horizontal_swipe_compare_2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontal_divider"/>
+        app:layout_constraintTop_toBottomOf="@+id/fixed_slider_icon_switch"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

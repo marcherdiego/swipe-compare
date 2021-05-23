@@ -2,7 +2,6 @@ package com.github.marcherdiego.swipecompare.core.base
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.PorterDuff.Mode
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -13,13 +12,16 @@ import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import com.github.marcherdiego.swipecompare.core.R
 
 @SuppressLint("ClickableViewAccessibility")
 abstract class SwipeCompareLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
+
+    protected var horizontalSliderValueListener: ((Float) -> Unit)? = null
+    protected var verticalSliderValueListener: ((Float) -> Unit)? = null
+    protected var crosshairSliderValueListener: ((Float, Float) -> Unit)? = null
 
     protected var topLeftFragmentContainer: FrameLayout? = null
     protected var topRightFragmentContainer: FrameLayout? = null
@@ -47,6 +49,9 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
 
     private var horizontalSelectorIconDy = 0f
     private var verticalSelectorIconDx = 0f
+
+    protected var fixedHorizontalSliderIcon = false
+    protected var fixedVerticalSliderIcon = false
 
     protected fun init() {
         topLeftFragmentContainer = findViewById(R.id.fragment_top_left)
@@ -91,9 +96,17 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
                     if (newX > -horizontalSelectorWidth && newX < measuredWidth - horizontalSelectorWidth) {
                         view.x = newX
                         lastHorizontalAction = MotionEvent.ACTION_MOVE
+                        horizontalSliderValueListener?.invoke(newX)
+                        notifyCrosshairChanged()
                         checkUnifiedController(event)
                     }
-                    horizontalSelectorIcon?.y = adjustToBounds(event.rawY + horizontalSelectorIconDy, 0, measuredHeight - horizontalSelectorHeight)
+                    if (fixedHorizontalSliderIcon.not()) {
+                        horizontalSelectorIcon?.y = adjustToBounds(
+                            event.rawY + horizontalSelectorIconDy,
+                            0,
+                            measuredHeight - horizontalSelectorHeight
+                        )
+                    }
                 }
                 MotionEvent.ACTION_UP -> if (lastHorizontalAction != MotionEvent.ACTION_DOWN) {
                     return@setOnTouchListener false
@@ -118,9 +131,17 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
                     val newY = event.rawY + dY
                     if (newY > -verticalSelectorHeight && newY < measuredHeight - verticalSelectorHeight) {
                         view.y = newY
+                        verticalSliderValueListener?.invoke(newY)
+                        notifyCrosshairChanged()
                         lastVerticalAction = MotionEvent.ACTION_MOVE
                     }
-                    verticalSelectorIcon?.x = adjustToBounds(event.rawX + verticalSelectorIconDx, 0, measuredWidth - verticalSelectorWidth)
+                    if (fixedVerticalSliderIcon.not()) {
+                        verticalSelectorIcon?.x = adjustToBounds(
+                            event.rawX + verticalSelectorIconDx,
+                            0,
+                            measuredWidth - verticalSelectorWidth
+                        )
+                    }
                 }
                 MotionEvent.ACTION_UP -> if (lastVerticalAction != MotionEvent.ACTION_DOWN) {
                     return@setOnTouchListener false
@@ -132,66 +153,36 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
 
         setWillNotDraw(false)
     }
+    
+    private fun notifyCrosshairChanged() {
+        crosshairSliderValueListener?.invoke(horizontalSlider?.x ?: return, verticalSlider?.y ?: return)
+    }
 
     internal open fun checkUnifiedController(event: MotionEvent) {}
 
-    fun setSliderBarColor(@ColorInt color: Int) {
-        horizontalSelectorBar?.setBackgroundColor(color)
-        verticalSelectorBar?.setBackgroundColor(color)
-    }
+    abstract fun setFixedSliderIcon(fixed: Boolean)
 
-    fun setSliderBarColorRes(@ColorRes color: Int) {
-        horizontalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
-        verticalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
-    }
+    abstract fun setSliderBarColor(@ColorInt color: Int)
 
-    fun setSliderIconColor(@ColorInt color: Int) {
-        horizontalSelectorIcon?.setBackgroundColor(color)
-        verticalSelectorIcon?.setBackgroundColor(color)
-    }
+    abstract fun setSliderBarColorRes(@ColorRes color: Int)
 
-    fun setSliderIconColorRes(@ColorRes color: Int) {
-        horizontalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
-        verticalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
-    }
+    abstract fun setSliderIconColor(@ColorInt color: Int)
 
-    fun setSliderIconSize(width: Int, height: Int) {
-        horizontalSelectorIcon?.layoutParams?.width = width
-        horizontalSelectorIcon?.layoutParams?.height = height
+    abstract fun setSliderIconColorRes(@ColorRes color: Int)
 
-        verticalSelectorIcon?.layoutParams?.width = width
-        verticalSelectorIcon?.layoutParams?.height = height
-    }
+    abstract fun setSliderIconSize(width: Int, height: Int)
 
-    fun setSliderIconBackground(@DrawableRes background: Int) {
-        horizontalSelectorIcon?.setBackgroundResource(background)
-        verticalSelectorIcon?.setBackgroundResource(background)
-    }
+    abstract fun setSliderIconBackground(@DrawableRes background: Int)
 
-    fun setSliderIconBackground(background: Drawable) {
-        horizontalSelectorIcon?.background = background
-        verticalSelectorIcon?.background = background
-    }
+    abstract fun setSliderIconBackground(background: Drawable)
 
-    fun setSliderIcon(@DrawableRes icon: Int) {
-        horizontalSelectorIcon?.setImageResource(icon)
-        verticalSelectorIcon?.setImageResource(icon)
-    }
+    abstract fun setSliderIcon(@DrawableRes icon: Int)
 
-    fun setSliderIcon(icon: Drawable) {
-        horizontalSelectorIcon?.setImageDrawable(icon)
-        verticalSelectorIcon?.setImageDrawable(icon)
-    }
+    abstract fun setSliderIcon(icon: Drawable)
 
-    fun setSliderIconTint(@ColorRes color: Int) {
-        horizontalSelectorIcon?.setColorFilter(ContextCompat.getColor(context, color), Mode.SRC_IN)
-        verticalSelectorIcon?.setColorFilter(ContextCompat.getColor(context, color), Mode.SRC_IN)
-    }
+    abstract fun setSliderIconTint(@ColorRes color: Int)
 
-    fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int) {
-        horizontalSelectorIcon?.setPadding(left, top, right, bottom)
-        verticalSelectorIcon?.setPadding(left, top, right, bottom)
-    }
+    abstract fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int)
 
     private fun adjustToBounds(value: Float, lowerBound: Int, upperBound: Int): Float {
         return when {
