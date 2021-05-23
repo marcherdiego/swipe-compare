@@ -56,7 +56,9 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
             verticalSelectorBar?.visibility = View.INVISIBLE
         } else {
             verticalSelectorBar?.visibility = View.VISIBLE
-            verticalSelectorBar?.layoutParams?.height = height
+            verticalSelectorBar?.layoutParams = verticalSelectorBar?.layoutParams?.apply {
+                this.height = height
+            }
         }
     }
 

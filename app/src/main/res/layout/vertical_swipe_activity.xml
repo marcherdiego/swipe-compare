@@ -3,15 +3,33 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/bar_height_slider_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/bar_width_slider"
+        android:text="Bar height: 1dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/bar_height_slider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:value="1"
+        android:valueFrom="0"
+        android:valueTo="100"
+        app:layout_constraintTop_toBottomOf="@+id/bar_height_slider_label"/>
 
     <com.github.marcherdiego.swipecompare.core.VerticalSwipeCompareLayout
         android:id="@+id/vertical_swipe_compare_1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
         app:layout_constraintBottom_toTopOf="@+id/horizontal_divider"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/bar_height_slider"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/horizontal_divider"
@@ -20,12 +38,53 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.5"/>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/slider_position_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/center_slider_icon_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_divider">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/slider_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Slider Y"
+            android:inputType="number"
+            android:text="0"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/center_slider_icon_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:padding="4dp"
+        android:text="Center slider icon"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toStartOf="@+id/fixed_slider_icon_switch"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_divider"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/fixed_slider_icon_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Fixed slider icon"
+        android:textSize="11sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontal_divider"/>
+
     <com.github.marcherdiego.swipecompare.core.VerticalSwipeCompareLayout
         android:id="@+id/vertical_swipe_compare_2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontal_divider"/>
+        app:layout_constraintTop_toBottomOf="@+id/slider_position_layout"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.github.marcherdiego.swipecompare.ui.mvp.view
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.ImageView.ScaleType.CENTER_CROP
 import android.widget.TextView
@@ -24,6 +25,7 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
 
     private val sliderPosition: TextInputEditText = activity.findViewById(R.id.slider_position)
     private val fixedSliderIconSwitch: SwitchMaterial = activity.findViewById(R.id.fixed_slider_icon_switch)
+    private val centerSliderIconButton: Button = activity.findViewById(R.id.center_slider_icon_button)
     
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -50,6 +52,9 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
         }
         fixedSliderIconSwitch.setOnCheckedChangeListener { _, isChecked ->
             bus.post(FixedSliderIconCheckedChangedEvent(isChecked))
+        }
+        centerSliderIconButton.setOnClickListener {
+            bus.post(CenterSliderIconCheckedChangedEvent())
         }
         sliderPosition.addTextChangedListener(textWatcher)
         horizontalSwipeCompareLayout1.apply {
@@ -101,9 +106,14 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
         horizontalSwipeCompareLayout2.setSliderPosition(position)
     }
 
+    fun centerSliderIcon() {
+        horizontalSwipeCompareLayout2.setSliderIconPosition(horizontalSwipeCompareLayout2.height / 2f)
+    }
+
     class BarWidthChangedEvent(val width: Int)
     class FixedSliderIconCheckedChangedEvent(val fixed: Boolean)
 
     class SliderPositionChangedEvent(val value: Float)
     class SliderPositionValueChangedEvent(val value: String?)
+    class CenterSliderIconCheckedChangedEvent
 }

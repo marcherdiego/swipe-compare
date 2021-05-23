@@ -9,6 +9,7 @@ import com.github.marcherdiego.swipecompare.ui.mvp.view.HorizontalSwipeView.BarW
 import com.github.marcherdiego.swipecompare.ui.mvp.view.HorizontalSwipeView.FixedSliderIconCheckedChangedEvent
 import com.github.marcherdiego.swipecompare.ui.mvp.view.HorizontalSwipeView.SliderPositionChangedEvent
 import com.github.marcherdiego.swipecompare.ui.mvp.view.HorizontalSwipeView.SliderPositionValueChangedEvent
+import com.github.marcherdiego.swipecompare.ui.mvp.view.HorizontalSwipeView.CenterSliderIconCheckedChangedEvent
 import org.greenrobot.eventbus.Subscribe
 
 class HorizontalSwipePresenter(view: HorizontalSwipeView, model: HorizontalSwipeModel) :
@@ -36,6 +37,11 @@ class HorizontalSwipePresenter(view: HorizontalSwipeView, model: HorizontalSwipe
     @Subscribe
     fun onSliderPositionChanged(event: SliderPositionChangedEvent) {
         view.setSliderPosition(event.value)
+    }
+
+    @Subscribe
+    fun onCenterSliderIconCheckedChanged(event: CenterSliderIconCheckedChangedEvent) {
+        view.centerSliderIcon()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
