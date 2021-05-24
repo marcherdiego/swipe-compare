@@ -27,6 +27,22 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
         init()
     }
 
+    override fun setupTouchControl() {
+        setOnTouchListener { _, event ->
+            return@setOnTouchListener if (allowTouchControl) {
+                fixedVerticalSliderIcon = true
+                
+                verticalSlider?.y = event.y - verticalSelectorHeight
+                verticalSlider?.dispatchTouchEvent(event)
+
+                fixedVerticalSliderIcon = false
+                true
+            } else {
+                false
+            }
+        }
+    }
+
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         val bottomLine = (verticalSlider?.y?.toInt() ?: 0) + verticalSelectorHeight

@@ -27,6 +27,22 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         init()
     }
 
+    override fun setupTouchControl() {
+        setOnTouchListener { _, event ->
+            return@setOnTouchListener if (allowTouchControl) {
+                fixedHorizontalSliderIcon = true
+                
+                horizontalSlider?.x = event.x - horizontalSelectorWidth
+                horizontalSlider?.dispatchTouchEvent(event)
+
+                fixedHorizontalSliderIcon = false
+                true
+            } else {
+                false
+            }
+        }
+    }
+
     @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         val rightLine = (horizontalSlider?.x?.toInt() ?: 0) + horizontalSelectorWidth
@@ -38,11 +54,11 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
     fun setFragments(fragmentManager: FragmentManager, leftFragment: Fragment, rightFragment: Fragment) {
         fragmentManager.beginTransaction().apply {
             replace(topLeftFragmentContainer?.id ?: return, leftFragment)
-            replace(topRightFragmentContainer?.id?: return, rightFragment)
+            replace(topRightFragmentContainer?.id ?: return, rightFragment)
             commit()
         }
     }
-    
+
     fun setViews(leftView: View, rightView: View) {
         topLeftFragmentContainer?.removeAllViews()
         topLeftFragmentContainer?.addView(leftView)
@@ -61,13 +77,13 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
             }
         }
     }
-    
+
     fun setSliderPosition(sliderX: Float, sliderIconY: Float = horizontalSelectorIcon?.y ?: 0f) {
         horizontalSlider?.x = sliderX
         horizontalSelectorIcon?.y = sliderIconY
         invalidate()
     }
-    
+
     fun setSliderIconPosition(y: Float) {
         horizontalSelectorIcon?.y = y
     }

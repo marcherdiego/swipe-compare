@@ -37,6 +37,25 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         init()
     }
 
+    override fun setupTouchControl() {
+        setOnTouchListener { _, event ->
+            return@setOnTouchListener if (allowTouchControl) {
+                unifiedControllers = true
+                
+                horizontalSlider?.x = event.x - horizontalSelectorWidth
+                horizontalSlider?.dispatchTouchEvent(event)
+
+                verticalSlider?.y = event.y - verticalSelectorHeight
+                verticalSlider?.dispatchTouchEvent(event)
+                
+                unifiedControllers = false
+                true
+            } else {
+                false
+            }
+        }
+    }
+
     override fun checkUnifiedController(event: MotionEvent) {
         if (unifiedControllers) {
             verticalSlider?.dispatchTouchEvent(event)

@@ -53,6 +53,8 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
     protected var fixedHorizontalSliderIcon = false
     protected var fixedVerticalSliderIcon = false
 
+    var allowTouchControl = false
+
     protected fun init() {
         topLeftFragmentContainer = findViewById(R.id.fragment_top_left)
         topLeftFragmentContainer?.id = topLeftFragmentContainer.hashCode()
@@ -78,6 +80,18 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
         topRightFragmentContainer?.clipToOutline = true
         bottomLeftFragmentContainer?.clipToOutline = true
         bottomRightFragmentContainer?.clipToOutline = true
+
+        setupHorizontalSlider()
+        setupVerticalSlider()
+
+        setupTouchControl()
+
+        setWillNotDraw(false)
+    }
+
+    protected abstract fun setupTouchControl()
+
+    private fun setupHorizontalSlider() {
         horizontalSlider?.post {
             horizontalSelectorWidth = (horizontalSelectorIcon?.width ?: 0) / 2
             horizontalSelectorHeight = horizontalSelectorIcon?.height ?: 0
@@ -115,6 +129,9 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
             invalidate()
             return@setOnTouchListener true
         }
+    }
+
+    private fun setupVerticalSlider() {
         verticalSlider?.post {
             verticalSelectorWidth = verticalSelectorIcon?.width ?: 0
             verticalSelectorHeight = (verticalSelectorIcon?.height ?: 0) / 2
@@ -150,10 +167,8 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
             invalidate()
             return@setOnTouchListener true
         }
-
-        setWillNotDraw(false)
     }
-    
+
     private fun notifyCrosshairChanged() {
         crosshairSliderValueListener?.invoke(horizontalSlider?.x ?: return, verticalSlider?.y ?: return)
     }
