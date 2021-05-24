@@ -20,3 +20,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    groupId = "com.github.marcherdiego.swipecompare"
+
+    libraryArtifactName = "core"
+    libraryVersion = "1.0.0"
+}

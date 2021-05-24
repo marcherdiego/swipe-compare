@@ -1,7 +1,7 @@
 # Swipe Compare Layout
  
 ## Download
-Coming soon
+[ ![Download](https://img.shields.io/maven-central/v/com.github.marcherdiego.swipecompare/core) ](https://search.maven.org/artifact/com.github.marcherdiego.swipecompare/core)
 
 ## Features
 ### Horizontal slider
