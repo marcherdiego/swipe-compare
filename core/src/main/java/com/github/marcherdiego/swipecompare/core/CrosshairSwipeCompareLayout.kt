@@ -48,7 +48,7 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
             val intersectionX = horizontalSlider?.x ?: 0f
             val intersectionY = verticalSlider?.y ?: 0f
 
-            // Save previous values to restore them
+            // Save previous values
             lastHorizontalSelectorIconY = horizontalSelectorIcon?.y
             lastVerticalSelectorIconX = verticalSelectorIcon?.x
 
@@ -56,7 +56,7 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
             horizontalSelectorIcon?.y = intersectionY
             verticalSelectorIcon?.x = intersectionX
         } else {
-            // Restore previous values and unset them
+            // Restore and unset previous values
             lastHorizontalSelectorIconY?.let {
                 horizontalSelectorIcon?.y = it
                 lastHorizontalSelectorIconY = null
