@@ -20,7 +20,7 @@ import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
 @SuppressLint("ClickableViewAccessibility")
 class HorizontalSwipeCompareLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : SwipeCompareLayout(context, attrs, defStyleAttr) {
+) : SwipeCompareLayout<HorizontalSwipeCompareLayout>(context, attrs, defStyleAttr) {
 
     init {
         LayoutInflater.from(context).inflate(R.layout.horizontal_swipe_compare_layout, this)
@@ -31,7 +31,7 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         setOnTouchListener { _, event ->
             return@setOnTouchListener if (allowTouchControl) {
                 fixedHorizontalSliderIcon = true
-                
+
                 horizontalSlider?.x = event.x - horizontalSelectorWidth
                 horizontalSlider?.dispatchTouchEvent(event)
 
@@ -51,23 +51,25 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         super.onDraw(canvas)
     }
 
-    fun setFragments(fragmentManager: FragmentManager, leftFragment: Fragment, rightFragment: Fragment) {
+    fun setFragments(fragmentManager: FragmentManager, leftFragment: Fragment, rightFragment: Fragment): HorizontalSwipeCompareLayout {
         fragmentManager.beginTransaction().apply {
-            replace(topLeftFragmentContainer?.id ?: return, leftFragment)
-            replace(topRightFragmentContainer?.id ?: return, rightFragment)
+            replace(topLeftFragmentContainer?.id ?: return this@HorizontalSwipeCompareLayout, leftFragment)
+            replace(topRightFragmentContainer?.id ?: return this@HorizontalSwipeCompareLayout, rightFragment)
             commit()
         }
+        return this
     }
 
-    fun setViews(leftView: View, rightView: View) {
+    fun setViews(leftView: View, rightView: View): HorizontalSwipeCompareLayout {
         topLeftFragmentContainer?.removeAllViews()
         topLeftFragmentContainer?.addView(leftView)
 
         topRightFragmentContainer?.removeAllViews()
         topRightFragmentContainer?.addView(rightView)
+        return this
     }
 
-    fun setSliderBarWidth(width: Int) {
+    fun setSliderBarWidth(width: Int): HorizontalSwipeCompareLayout {
         if (width == 0) {
             horizontalSelectorBar?.visibility = View.INVISIBLE
         } else {
@@ -76,68 +78,89 @@ class HorizontalSwipeCompareLayout @JvmOverloads constructor(
                 this.width = width
             }
         }
+        return this
     }
 
-    fun setSliderPosition(sliderX: Float, sliderIconY: Float = horizontalSelectorIcon?.y ?: 0f) {
+    fun setSliderPosition(sliderX: Float, sliderIconY: Float = horizontalSelectorIcon?.y ?: 0f): HorizontalSwipeCompareLayout {
         horizontalSlider?.x = sliderX
         horizontalSelectorIcon?.y = sliderIconY
         invalidate()
+        return this
     }
 
-    fun setSliderIconPosition(y: Float) {
+    fun centerSliderIconColor(): HorizontalSwipeCompareLayout {
+        setSliderIconPosition(height / 2 - (horizontalSelectorIcon?.height?.toFloat()?.div(2f) ?: 0f))
+        return this
+    }
+
+    fun setSliderIconPosition(y: Float): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.y = y
+        return this
     }
 
-    fun setSliderPositionChangedListener(listener: (Float) -> Unit) {
+    fun setSliderPositionChangedListener(listener: (Float) -> Unit): HorizontalSwipeCompareLayout {
         horizontalSliderValueListener = listener
+        return this
     }
 
-    override fun setSliderBarColor(@ColorInt color: Int) {
+    override fun setSliderBarColor(@ColorInt color: Int): HorizontalSwipeCompareLayout {
         horizontalSelectorBar?.setBackgroundColor(color)
+        return this
     }
 
-    override fun setSliderBarColorRes(@ColorRes color: Int) {
+    override fun setSliderBarColorRes(@ColorRes color: Int): HorizontalSwipeCompareLayout {
         horizontalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
+        return this
     }
 
-    override fun setSliderIconColor(@ColorInt color: Int) {
+    override fun setSliderIconColor(@ColorInt color: Int): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.setBackgroundColor(color)
+        return this
     }
 
-    override fun setSliderIconColorRes(@ColorRes color: Int) {
+    override fun setSliderIconColorRes(@ColorRes color: Int): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
+        return this
     }
 
-    override fun setSliderIconSize(width: Int, height: Int) {
+    override fun setSliderIconSize(width: Int, height: Int): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.layoutParams?.width = width
         horizontalSelectorIcon?.layoutParams?.height = height
+        return this
     }
 
-    override fun setSliderIconBackground(@DrawableRes background: Int) {
+    override fun setSliderIconBackground(@DrawableRes background: Int): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.setBackgroundResource(background)
+        return this
     }
 
-    override fun setSliderIconBackground(background: Drawable) {
+    override fun setSliderIconBackground(background: Drawable): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.background = background
+        return this
     }
 
-    override fun setSliderIcon(@DrawableRes icon: Int) {
+    override fun setSliderIcon(@DrawableRes icon: Int): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.setImageResource(icon)
+        return this
     }
 
-    override fun setSliderIcon(icon: Drawable) {
+    override fun setSliderIcon(icon: Drawable): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.setImageDrawable(icon)
+        return this
     }
 
-    override fun setSliderIconTint(@ColorRes color: Int) {
+    override fun setSliderIconTint(@ColorRes color: Int): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.setColorFilter(ContextCompat.getColor(context, color), Mode.SRC_IN)
+        return this
     }
 
-    override fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int) {
+    override fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int): HorizontalSwipeCompareLayout {
         horizontalSelectorIcon?.setPadding(left, top, right, bottom)
+        return this
     }
 
-    override fun setFixedSliderIcon(fixed: Boolean) {
+    override fun setFixedSliderIcon(fixed: Boolean): HorizontalSwipeCompareLayout {
         fixedHorizontalSliderIcon = fixed
+        return this
     }
 }

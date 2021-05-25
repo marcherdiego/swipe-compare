@@ -56,22 +56,25 @@ class VerticalSwipeView(activity: VerticalSwipeActivity) : BaseActivityView(acti
             bus.post(CenterSliderIconCheckedChangedEvent())
         }
         sliderPosition.addTextChangedListener(textWatcher)
-        verticalSwipeCompareLayout1.apply {
-            setSliderBarColorRes(R.color.white)
-            setSliderIconBackground(R.drawable.circle_background)
-            val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
-            setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
-            setFragments(fragmentManager = activity.supportFragmentManager, topFragment = LeftFragment(), bottomFragment = RightFragment())
-            setSliderBarHeight(resources.getDimensionPixelSize(R.dimen.bar_height))
-            setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
-        }
 
-        verticalSwipeCompareLayout2.apply {
-            setSliderBarColorRes(R.color.white)
-            setSliderIconBackground(R.drawable.circle_background)
-            val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
-            setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
-            setViews(
+        val resources = activity.resources
+        val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
+        val sliderBarHeight = resources.getDimensionPixelSize(R.dimen.bar_height)
+        val sliderIconSize = resources.getDimensionPixelSize(R.dimen.icon_size)
+
+        verticalSwipeCompareLayout1
+            .setSliderBarColorRes(R.color.white)
+            .setSliderIconBackground(R.drawable.circle_background)
+            .setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
+            .setFragments(fragmentManager = activity.supportFragmentManager, topFragment = LeftFragment(), bottomFragment = RightFragment())
+            .setSliderBarHeight(sliderBarHeight)
+            .setSliderIconSize(sliderIconSize, sliderIconSize)
+
+        verticalSwipeCompareLayout2
+            .setSliderBarColorRes(R.color.white)
+            .setSliderIconBackground(R.drawable.circle_background)
+            .setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
+            .setViews(
                 topView = ImageView(activity).apply {
                     scaleType = CENTER_CROP
                     setImageResource(R.drawable.img1)
@@ -81,19 +84,18 @@ class VerticalSwipeView(activity: VerticalSwipeActivity) : BaseActivityView(acti
                     setImageResource(R.drawable.img2)
                 }
             )
-            setSliderBarHeight(resources.getDimensionPixelSize(R.dimen.bar_height))
-            setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
-            setSliderPositionChangedListener {
+            .setSliderBarHeight(sliderBarHeight)
+            .setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
+            .setSliderPositionChangedListener {
                 sliderPosition.removeTextChangedListener(textWatcher)
                 bus.post(SliderPositionChangedEvent(it))
                 sliderPosition.addTextChangedListener(textWatcher)
                 sliderPosition.setSelection(sliderPosition.text?.length ?: 0)
             }
-        }
     }
 
     fun setBarHeight(height: Int) {
-        barHeightSliderLabel.text = "Bar height: ${height}dp"
+        barHeightSliderLabel.text = "Bar height: ${height}px"
         verticalSwipeCompareLayout1.setSliderBarHeight(height)
     }
 
@@ -107,7 +109,7 @@ class VerticalSwipeView(activity: VerticalSwipeActivity) : BaseActivityView(acti
     }
 
     fun centerSliderIcon() {
-        verticalSwipeCompareLayout2.setSliderIconPosition(verticalSwipeCompareLayout2.width / 2f)
+        verticalSwipeCompareLayout2.centerSliderIconColor()
     }
 
     class BarHeightChangedEvent(val height: Int)

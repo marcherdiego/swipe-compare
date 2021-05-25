@@ -26,7 +26,7 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
     private val sliderPosition: TextInputEditText = activity.findViewById(R.id.slider_position)
     private val fixedSliderIconSwitch: SwitchMaterial = activity.findViewById(R.id.fixed_slider_icon_switch)
     private val centerSliderIconButton: Button = activity.findViewById(R.id.center_slider_icon_button)
-    
+
     private val textWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         }
@@ -57,21 +57,26 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
             bus.post(CenterSliderIconCheckedChangedEvent())
         }
         sliderPosition.addTextChangedListener(textWatcher)
-        horizontalSwipeCompareLayout1.apply {
-            setSliderBarColorRes(R.color.white)
-            setSliderIconBackground(R.drawable.circle_background)
-            val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
-            setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
-            setFragments(fragmentManager = activity.supportFragmentManager, leftFragment = LeftFragment(), rightFragment = RightFragment())
-            setSliderBarWidth(resources.getDimensionPixelSize(R.dimen.bar_width))
-            setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
-        }
-        horizontalSwipeCompareLayout2.apply {
-            setSliderBarColorRes(R.color.white)
-            setSliderIconBackground(R.drawable.circle_background)
-            val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
-            setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
-            setViews(
+
+        val resources = activity.resources
+        val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
+        val sliderBarWidth = resources.getDimensionPixelSize(R.dimen.bar_width)
+        val sliderIconSize = resources.getDimensionPixelSize(R.dimen.icon_size)
+
+        horizontalSwipeCompareLayout1
+            .setSliderBarColorRes(R.color.white)
+            .setSliderIconBackground(R.drawable.circle_background)
+            .setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
+            .setFragments(fragmentManager = activity.supportFragmentManager, leftFragment = LeftFragment(), rightFragment = RightFragment())
+            .setSliderBarWidth(sliderBarWidth)
+            .setSliderIconSize(sliderIconSize, sliderIconSize)
+
+
+        horizontalSwipeCompareLayout2
+            .setSliderBarColorRes(R.color.white)
+            .setSliderIconBackground(R.drawable.circle_background)
+            .setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
+            .setViews(
                 leftView = ImageView(activity).apply {
                     scaleType = CENTER_CROP
                     setImageResource(R.drawable.img1)
@@ -81,19 +86,18 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
                     setImageResource(R.drawable.img2)
                 }
             )
-            setSliderBarWidth(resources.getDimensionPixelSize(R.dimen.bar_width))
-            setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
-            setSliderPositionChangedListener {
+            .setSliderBarWidth(sliderBarWidth)
+            .setSliderIconSize(sliderIconSize, sliderIconSize)
+            .setSliderPositionChangedListener {
                 sliderPosition.removeTextChangedListener(textWatcher)
                 bus.post(SliderPositionChangedEvent(it))
                 sliderPosition.addTextChangedListener(textWatcher)
                 sliderPosition.setSelection(sliderPosition.text?.length ?: 0)
             }
-        }
     }
 
     fun setBarWidth(width: Int) {
-        barWidthSliderLabel.text = "Bar width: ${width}dp"
+        barWidthSliderLabel.text = "Bar width: ${width}px"
         horizontalSwipeCompareLayout1.setSliderBarWidth(width)
     }
 
@@ -107,7 +111,7 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
     }
 
     fun centerSliderIcon() {
-        horizontalSwipeCompareLayout2.setSliderIconPosition(horizontalSwipeCompareLayout2.height / 2f)
+        horizontalSwipeCompareLayout2.centerSliderIconColor()
     }
 
     class BarWidthChangedEvent(val width: Int)

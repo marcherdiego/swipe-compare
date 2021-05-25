@@ -20,8 +20,8 @@ import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
 @SuppressLint("ClickableViewAccessibility")
 class VerticalSwipeCompareLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : SwipeCompareLayout(context, attrs, defStyleAttr) {
-    
+) : SwipeCompareLayout<VerticalSwipeCompareLayout>(context, attrs, defStyleAttr) {
+
     init {
         LayoutInflater.from(context).inflate(R.layout.vertical_swipe_compare_layout, this)
         init()
@@ -31,7 +31,7 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
         setOnTouchListener { _, event ->
             return@setOnTouchListener if (allowTouchControl) {
                 fixedVerticalSliderIcon = true
-                
+
                 verticalSlider?.y = event.y - verticalSelectorHeight
                 verticalSlider?.dispatchTouchEvent(event)
 
@@ -51,23 +51,25 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
         super.onDraw(canvas)
     }
 
-    fun setFragments(fragmentManager: FragmentManager, topFragment: Fragment, bottomFragment: Fragment) {
+    fun setFragments(fragmentManager: FragmentManager, topFragment: Fragment, bottomFragment: Fragment): VerticalSwipeCompareLayout {
         fragmentManager.beginTransaction().apply {
-            replace(topLeftFragmentContainer?.id ?: return, topFragment)
-            replace(bottomLeftFragmentContainer?.id ?: return, bottomFragment)
+            replace(topLeftFragmentContainer?.id ?: return this@VerticalSwipeCompareLayout, topFragment)
+            replace(bottomLeftFragmentContainer?.id ?: return this@VerticalSwipeCompareLayout, bottomFragment)
             commit()
         }
+        return this
     }
 
-    fun setViews(topView: View, bottomView: View) {
+    fun setViews(topView: View, bottomView: View): VerticalSwipeCompareLayout {
         topLeftFragmentContainer?.removeAllViews()
         topLeftFragmentContainer?.addView(topView)
 
         bottomLeftFragmentContainer?.removeAllViews()
         bottomLeftFragmentContainer?.addView(bottomView)
+        return this
     }
 
-    fun setSliderBarHeight(height: Int) {
+    fun setSliderBarHeight(height: Int): VerticalSwipeCompareLayout {
         if (height == 0) {
             verticalSelectorBar?.visibility = View.INVISIBLE
         } else {
@@ -76,68 +78,89 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
                 this.height = height
             }
         }
+        return this
     }
 
-    fun setSliderPosition(sliderY: Float, sliderIconX: Float = verticalSelectorIcon?.x ?: 0f) {
+    fun setSliderPosition(sliderY: Float, sliderIconX: Float = verticalSelectorIcon?.x ?: 0f): VerticalSwipeCompareLayout {
         verticalSlider?.y = sliderY
         verticalSelectorIcon?.x = sliderIconX
         invalidate()
+        return this
     }
 
-    fun setSliderPositionChangedListener(listener: (Float) -> Unit) {
+    fun setSliderPositionChangedListener(listener: (Float) -> Unit): VerticalSwipeCompareLayout {
         verticalSliderValueListener = listener
+        return this
     }
 
-    fun setSliderIconPosition(x: Float) {
+    fun setSliderIconPosition(x: Float): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.x = x
+        return this
     }
 
-    override fun setSliderBarColor(@ColorInt color: Int) {
+    fun centerSliderIconColor(): VerticalSwipeCompareLayout {
+        setSliderIconPosition(width / 2 - (verticalSelectorIcon?.width?.toFloat()?.div(2f) ?: 0f))
+        return this
+    }
+
+    override fun setSliderBarColor(@ColorInt color: Int): VerticalSwipeCompareLayout {
         verticalSelectorBar?.setBackgroundColor(color)
+        return this
     }
 
-    override fun setSliderBarColorRes(@ColorRes color: Int) {
+    override fun setSliderBarColorRes(@ColorRes color: Int): VerticalSwipeCompareLayout {
         verticalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
+        return this
     }
 
-    override fun setSliderIconColor(@ColorInt color: Int) {
+    override fun setSliderIconColor(@ColorInt color: Int): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.setBackgroundColor(color)
+        return this
     }
 
-    override fun setSliderIconColorRes(@ColorRes color: Int) {
+    override fun setSliderIconColorRes(@ColorRes color: Int): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
+        return this
     }
 
-    override fun setSliderIconSize(width: Int, height: Int) {
+    override fun setSliderIconSize(width: Int, height: Int): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.layoutParams?.width = width
         verticalSelectorIcon?.layoutParams?.height = height
+        return this
     }
 
-    override fun setSliderIconBackground(@DrawableRes background: Int) {
+    override fun setSliderIconBackground(@DrawableRes background: Int): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.setBackgroundResource(background)
+        return this
     }
 
-    override fun setSliderIconBackground(background: Drawable) {
+    override fun setSliderIconBackground(background: Drawable): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.background = background
+        return this
     }
 
-    override fun setSliderIcon(@DrawableRes icon: Int) {
+    override fun setSliderIcon(@DrawableRes icon: Int): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.setImageResource(icon)
+        return this
     }
 
-    override fun setSliderIcon(icon: Drawable) {
+    override fun setSliderIcon(icon: Drawable): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.setImageDrawable(icon)
+        return this
     }
 
-    override fun setSliderIconTint(@ColorRes color: Int) {
+    override fun setSliderIconTint(@ColorRes color: Int): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.setColorFilter(ContextCompat.getColor(context, color), Mode.SRC_IN)
+        return this
     }
 
-    override fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int) {
+    override fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.setPadding(left, top, right, bottom)
+        return this
     }
 
-    override fun setFixedSliderIcon(fixed: Boolean) {
+    override fun setFixedSliderIcon(fixed: Boolean): VerticalSwipeCompareLayout {
         fixedVerticalSliderIcon = fixed
+        return this
     }
 }

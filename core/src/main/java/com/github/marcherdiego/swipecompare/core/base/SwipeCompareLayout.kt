@@ -15,7 +15,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.github.marcherdiego.swipecompare.core.R
 
 @SuppressLint("ClickableViewAccessibility")
-abstract class SwipeCompareLayout @JvmOverloads constructor(
+abstract class SwipeCompareLayout<T> @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
@@ -175,29 +175,29 @@ abstract class SwipeCompareLayout @JvmOverloads constructor(
 
     internal open fun checkUnifiedController(event: MotionEvent) {}
 
-    abstract fun setFixedSliderIcon(fixed: Boolean)
+    abstract fun setFixedSliderIcon(fixed: Boolean): T
 
-    abstract fun setSliderBarColor(@ColorInt color: Int)
+    abstract fun setSliderBarColor(@ColorInt color: Int): T
 
-    abstract fun setSliderBarColorRes(@ColorRes color: Int)
+    abstract fun setSliderBarColorRes(@ColorRes color: Int): T
 
-    abstract fun setSliderIconColor(@ColorInt color: Int)
+    abstract fun setSliderIconColor(@ColorInt color: Int): T
 
-    abstract fun setSliderIconColorRes(@ColorRes color: Int)
+    abstract fun setSliderIconColorRes(@ColorRes color: Int): T
 
-    abstract fun setSliderIconSize(width: Int, height: Int)
+    abstract fun setSliderIconSize(width: Int, height: Int): T
 
-    abstract fun setSliderIconBackground(@DrawableRes background: Int)
+    abstract fun setSliderIconBackground(@DrawableRes background: Int): T
 
-    abstract fun setSliderIconBackground(background: Drawable)
+    abstract fun setSliderIconBackground(background: Drawable): T
 
-    abstract fun setSliderIcon(@DrawableRes icon: Int)
+    abstract fun setSliderIcon(@DrawableRes icon: Int): T
 
-    abstract fun setSliderIcon(icon: Drawable)
+    abstract fun setSliderIcon(icon: Drawable): T
 
-    abstract fun setSliderIconTint(@ColorRes color: Int)
+    abstract fun setSliderIconTint(@ColorRes color: Int): T
 
-    abstract fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int)
+    abstract fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int): T
 
     private fun adjustToBounds(value: Float, lowerBound: Int, upperBound: Int): Float {
         return when {

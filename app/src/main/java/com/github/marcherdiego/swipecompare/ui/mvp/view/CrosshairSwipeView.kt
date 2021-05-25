@@ -22,12 +22,16 @@ class CrosshairSwipeView(activity: CrosshairSwipeActivity) : BaseActivityView(ac
             bus.post(CombinedControlsCheckedChangedEvent(isChecked))
         }
 
-        crosshairSwipeCompareLayout.apply {
-            setSliderBarColorRes(R.color.white)
-            setSliderIconBackground(R.drawable.circle_background)
-            val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
-            setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
-            setViews(
+        val resources = activity.resources
+        val sliderIconPadding = resources.getDimensionPixelSize(R.dimen.icon_padding)
+        val sliderBarHeight = resources.getDimensionPixelSize(R.dimen.bar_height)
+        val sliderBarWidth = resources.getDimensionPixelSize(R.dimen.bar_width)
+        val sliderIconSize = resources.getDimensionPixelSize(R.dimen.icon_size)
+        crosshairSwipeCompareLayout
+            .setSliderBarColorRes(R.color.white)
+            .setSliderIconBackground(R.drawable.circle_background)
+            .setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
+            .setViews(
                 topLeftView = ImageView(activity).apply {
                     scaleType = CENTER_CROP
                     setImageResource(R.drawable.img1)
@@ -45,14 +49,12 @@ class CrosshairSwipeView(activity: CrosshairSwipeActivity) : BaseActivityView(ac
                     setImageResource(R.drawable.ss2)
                 }
             )
-            setSliderBarHeight(resources.getDimensionPixelSize(R.dimen.bar_height))
-            setSliderBarWidth(resources.getDimensionPixelSize(R.dimen.bar_width))
-            setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
-
-            setSliderPositionChangedListener { x, y ->
+            .setSliderBarHeight(sliderBarHeight)
+            .setSliderBarWidth(sliderBarWidth)
+            .setSliderIconSize(sliderIconSize, sliderIconSize)
+            .setSliderPositionChangedListener { x, y ->
                 Log.v("CrosshairSwipeView", "x=$x, y=$y")
             }
-        }
     }
 
     fun setUnifiedControls(unifiedControls: Boolean) {

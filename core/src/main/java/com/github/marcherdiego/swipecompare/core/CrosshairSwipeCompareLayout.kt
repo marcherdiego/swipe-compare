@@ -21,7 +21,7 @@ import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
 @SuppressLint("ClickableViewAccessibility")
 class CrosshairSwipeCompareLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
-) : SwipeCompareLayout(context, attrs, defStyleAttr) {
+) : SwipeCompareLayout<CrosshairSwipeCompareLayout>(context, attrs, defStyleAttr) {
 
     private var lastHorizontalSelectorIconY: Float? = null
     private var lastVerticalSelectorIconX: Float? = null
@@ -41,13 +41,13 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         setOnTouchListener { _, event ->
             return@setOnTouchListener if (allowTouchControl) {
                 unifiedControllers = true
-                
+
                 horizontalSlider?.x = event.x - horizontalSelectorWidth
                 horizontalSlider?.dispatchTouchEvent(event)
 
                 verticalSlider?.y = event.y - verticalSelectorHeight
                 verticalSlider?.dispatchTouchEvent(event)
-                
+
                 unifiedControllers = false
                 true
             } else {
@@ -106,14 +106,15 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         topRightFragment: Fragment,
         bottomLeftFragment: Fragment,
         bottomRightFragment: Fragment
-    ) {
+    ): CrosshairSwipeCompareLayout {
         fragmentManager.beginTransaction().apply {
-            replace(topLeftFragmentContainer?.id ?: return, topLeftFragment)
-            replace(topRightFragmentContainer?.id ?: return, topRightFragment)
-            replace(bottomLeftFragmentContainer?.id ?: return, bottomLeftFragment)
-            replace(bottomRightFragmentContainer?.id ?: return, bottomRightFragment)
+            replace(topLeftFragmentContainer?.id ?: return this@CrosshairSwipeCompareLayout, topLeftFragment)
+            replace(topRightFragmentContainer?.id ?: return this@CrosshairSwipeCompareLayout, topRightFragment)
+            replace(bottomLeftFragmentContainer?.id ?: return this@CrosshairSwipeCompareLayout, bottomLeftFragment)
+            replace(bottomRightFragmentContainer?.id ?: return this@CrosshairSwipeCompareLayout, bottomRightFragment)
             commit()
         }
+        return this
     }
 
     fun setViews(
@@ -121,7 +122,7 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         topRightView: View,
         bottomLeftView: View,
         bottomRightView: View
-    ) {
+    ): CrosshairSwipeCompareLayout {
         topLeftFragmentContainer?.removeAllViews()
         topLeftFragmentContainer?.addView(topLeftView)
 
@@ -133,95 +134,112 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
 
         bottomRightFragmentContainer?.removeAllViews()
         bottomRightFragmentContainer?.addView(bottomRightView)
+        return this
     }
 
-    fun setSliderBarHeight(height: Int) {
+    fun setSliderBarHeight(height: Int): CrosshairSwipeCompareLayout {
         if (height == 0) {
             verticalSelectorBar?.visibility = View.INVISIBLE
         } else {
             verticalSelectorBar?.visibility = View.VISIBLE
             verticalSelectorBar?.layoutParams?.height = height
         }
+        return this
     }
 
-    fun setSliderBarWidth(width: Int) {
+    fun setSliderBarWidth(width: Int): CrosshairSwipeCompareLayout {
         if (width == 0) {
             horizontalSelectorBar?.visibility = View.INVISIBLE
         } else {
             horizontalSelectorBar?.visibility = View.VISIBLE
             horizontalSelectorBar?.layoutParams?.width = width
         }
+        return this
     }
-    
-    fun setSliderPosition(sliderX: Float, sliderY: Float) {
+
+    fun setSliderPosition(sliderX: Float, sliderY: Float): CrosshairSwipeCompareLayout {
         horizontalSlider?.x = sliderX
         verticalSlider?.y = sliderY
         invalidate()
+        return this
     }
 
-    fun setSliderPositionChangedListener(listener: (Float, Float) -> Unit) {
+    fun setSliderPositionChangedListener(listener: (Float, Float) -> Unit): CrosshairSwipeCompareLayout {
         crosshairSliderValueListener = listener
+        return this
     }
 
-    override fun setSliderBarColor(@ColorInt color: Int) {
+    override fun setSliderBarColor(@ColorInt color: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorBar?.setBackgroundColor(color)
         verticalSelectorBar?.setBackgroundColor(color)
+        return this
     }
 
-    override fun setSliderBarColorRes(@ColorRes color: Int) {
+    override fun setSliderBarColorRes(@ColorRes color: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
         verticalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
+        return this
     }
 
-    override fun setSliderIconColor(@ColorInt color: Int) {
+    override fun setSliderIconColor(@ColorInt color: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setBackgroundColor(color)
         verticalSelectorIcon?.setBackgroundColor(color)
+        return this
     }
 
-    override fun setSliderIconColorRes(@ColorRes color: Int) {
+    override fun setSliderIconColorRes(@ColorRes color: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
         verticalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
+        return this
     }
 
-    override fun setSliderIconSize(width: Int, height: Int) {
+    override fun setSliderIconSize(width: Int, height: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.layoutParams?.width = width
         horizontalSelectorIcon?.layoutParams?.height = height
 
         verticalSelectorIcon?.layoutParams?.width = width
         verticalSelectorIcon?.layoutParams?.height = height
+        return this
     }
 
-    override fun setSliderIconBackground(@DrawableRes background: Int) {
+    override fun setSliderIconBackground(@DrawableRes background: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setBackgroundResource(background)
         verticalSelectorIcon?.setBackgroundResource(background)
+        return this
     }
 
-    override fun setSliderIconBackground(background: Drawable) {
+    override fun setSliderIconBackground(background: Drawable): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.background = background
         verticalSelectorIcon?.background = background
+        return this
     }
 
-    override fun setSliderIcon(@DrawableRes icon: Int) {
+    override fun setSliderIcon(@DrawableRes icon: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setImageResource(icon)
         verticalSelectorIcon?.setImageResource(icon)
+        return this
     }
 
-    override fun setSliderIcon(icon: Drawable) {
+    override fun setSliderIcon(icon: Drawable): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setImageDrawable(icon)
         verticalSelectorIcon?.setImageDrawable(icon)
+        return this
     }
 
-    override fun setSliderIconTint(@ColorRes color: Int) {
+    override fun setSliderIconTint(@ColorRes color: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setColorFilter(ContextCompat.getColor(context, color), Mode.SRC_IN)
         verticalSelectorIcon?.setColorFilter(ContextCompat.getColor(context, color), Mode.SRC_IN)
+        return this
     }
 
-    override fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int) {
+    override fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setPadding(left, top, right, bottom)
         verticalSelectorIcon?.setPadding(left, top, right, bottom)
+        return this
     }
 
-    override fun setFixedSliderIcon(fixed: Boolean) {
+    override fun setFixedSliderIcon(fixed: Boolean): CrosshairSwipeCompareLayout {
         unifiedControllers = fixed
+        return this
     }
 }
