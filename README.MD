@@ -1,4 +1,6 @@
 # Swipe Compare Layout
+Create your own swipe-to-compare layouts with this easy-to-use library.
+Natively built with no additional libraries to process drawing, other than standard Android ones.
  
 ## Download
 [![Download](https://img.shields.io/maven-central/v/com.github.marcherdiego.swipecompare/core)](https://search.maven.org/artifact/com.github.marcherdiego.swipecompare/core)
