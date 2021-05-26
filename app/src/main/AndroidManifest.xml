@@ -11,12 +11,19 @@
         android:theme="@style/Theme.SwipeCompare">
         <activity
             android:name="com.github.marcherdiego.swipecompare.ui.activities.HorizontalSwipeActivity"
-            android:label="Horizontal comparison"/>
-        <activity android:name="com.github.marcherdiego.swipecompare.ui.activities.VerticalSwipeActivity"
-            android:label="Vertical comparison"/>
-        <activity android:name="com.github.marcherdiego.swipecompare.ui.activities.CrosshairSwipeActivity"
-            android:label="Horizontal &amp; Vertical comparison"/>
-        <activity android:name=".ui.activities.MainActivity">
+            android:label="Horizontal comparison"
+            android:screenOrientation="sensorPortrait"/>
+        <activity
+            android:name="com.github.marcherdiego.swipecompare.ui.activities.VerticalSwipeActivity"
+            android:label="Vertical comparison"
+            android:screenOrientation="sensorPortrait"/>
+        <activity
+            android:name="com.github.marcherdiego.swipecompare.ui.activities.CrosshairSwipeActivity"
+            android:label="Crosshair comparison"
+            android:screenOrientation="sensorPortrait"/>
+        <activity
+            android:name=".ui.activities.MainActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
