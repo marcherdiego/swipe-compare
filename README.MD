@@ -13,6 +13,8 @@ implementation "com.github.marcherdiego.swipecompare:core:LATEST_VERSION"
 ```
 
 ### Horizontal & Vertical layouts
+<img alt='Horizontal layout' src='gifs/horizontal.gif' height='400'/>
+<img alt='Vertical layout' src='gifs/vertical.gif' height='400'/>
 #### Setup with Fragments
 ```kotlin
 private val horizontalSwipeCompareLayout: HorizontalSwipeCompareLayout = findViewById(R.id.horizontal_swipe_compare)
@@ -44,6 +46,7 @@ horizontalSwipeCompareLayout
 ```
 
 ### Crosshair layout
+<img alt='Vertical layout' src='gifs/crosshair.gif' height='400'/>
 #### Setup with Fragments
 ```kotlin
 private val crosshairSwipeCompareLayout: CrosshairSwipeCompareLayout = findViewById(R.id.crosshair_swipe_compare)
