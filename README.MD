@@ -13,8 +13,10 @@ implementation "com.github.marcherdiego.swipecompare:core:LATEST_VERSION"
 ```
 
 ### Horizontal & Vertical layouts
-<img alt='Horizontal layout' src='gifs/horizontal.gif' height='400'/>
-<img alt='Vertical layout' src='gifs/vertical.gif' height='400'/>
+| Horizontal                                                            	| Vertical                                                          	|
+|-----------------------------------------------------------------------	|-------------------------------------------------------------------	|
+| <img alt='Horizontal layout' src='gifs/horizontal.gif' height='400'/> 	| <img alt='Vertical layout' src='gifs/vertical.gif' height='400'/> 	|
+
 #### Setup with Fragments
 ```kotlin
 private val horizontalSwipeCompareLayout: HorizontalSwipeCompareLayout = findViewById(R.id.horizontal_swipe_compare)
@@ -46,7 +48,10 @@ horizontalSwipeCompareLayout
 ```
 
 ### Crosshair layout
-<img alt='Vertical layout' src='gifs/crosshair.gif' height='400'/>
+| Crosshair                                                           	|
+|---------------------------------------------------------------------	|
+| <img alt='Crosshair layout' src='gifs/crosshair.gif' height='400'/> 	|
+
 #### Setup with Fragments
 ```kotlin
 private val crosshairSwipeCompareLayout: CrosshairSwipeCompareLayout = findViewById(R.id.crosshair_swipe_compare)
@@ -93,13 +98,3 @@ crosshairSwipeCompareLayout
         bottomRightView = View(context)
     )
 ```
-
-## Features
-### Horizontal slider
-https://user-images.githubusercontent.com/4492972/119355504-bcd4e400-bc7b-11eb-9dbc-6bc7de3eacaa.mp4
-
-### Vertical slider
-https://user-images.githubusercontent.com/4492972/119355700-f4439080-bc7b-11eb-9933-214713567ec2.mp4
-
-### Crosshair slider
-https://user-images.githubusercontent.com/4492972/119355716-f9084480-bc7b-11eb-9a3e-9bb19bda28de.mp4
