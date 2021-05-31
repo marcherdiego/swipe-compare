@@ -19,7 +19,7 @@ import androidx.fragment.app.FragmentManager
 import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
 
 @SuppressLint("ClickableViewAccessibility")
-class CrosshairSwipeCompareLayout @JvmOverloads constructor(
+open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : SwipeCompareLayout<CrosshairSwipeCompareLayout>(context, attrs, defStyleAttr) {
 
@@ -208,7 +208,7 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         return this
     }
 
-    override fun setSliderIconBackground(background: Drawable): CrosshairSwipeCompareLayout {
+    override fun setSliderIconBackground(background: Drawable?): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.background = background
         verticalSelectorIcon?.background = background
         return this
@@ -220,7 +220,7 @@ class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         return this
     }
 
-    override fun setSliderIcon(icon: Drawable): CrosshairSwipeCompareLayout {
+    override fun setSliderIcon(icon: Drawable?): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setImageDrawable(icon)
         verticalSelectorIcon?.setImageDrawable(icon)
         return this

@@ -189,11 +189,11 @@ abstract class SwipeCompareLayout<T> @JvmOverloads constructor(
 
     abstract fun setSliderIconBackground(@DrawableRes background: Int): T
 
-    abstract fun setSliderIconBackground(background: Drawable): T
+    abstract fun setSliderIconBackground(background: Drawable?): T
 
     abstract fun setSliderIcon(@DrawableRes icon: Int): T
 
-    abstract fun setSliderIcon(icon: Drawable): T
+    abstract fun setSliderIcon(icon: Drawable?): T
 
     abstract fun setSliderIconTint(@ColorRes color: Int): T
 
@@ -206,4 +206,12 @@ abstract class SwipeCompareLayout<T> @JvmOverloads constructor(
             else -> value
         }
     }
+
+    fun getTopLeft() = topLeftFragmentContainer
+
+    fun getTopRight() = topRightFragmentContainer
+
+    fun getBottomLeft() = bottomLeftFragmentContainer
+
+    fun getBottomRight() = bottomRightFragmentContainer
 }

@@ -18,7 +18,7 @@ import androidx.fragment.app.FragmentManager
 import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
 
 @SuppressLint("ClickableViewAccessibility")
-class VerticalSwipeCompareLayout @JvmOverloads constructor(
+open class VerticalSwipeCompareLayout @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : SwipeCompareLayout<VerticalSwipeCompareLayout>(context, attrs, defStyleAttr) {
 
@@ -134,7 +134,7 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
         return this
     }
 
-    override fun setSliderIconBackground(background: Drawable): VerticalSwipeCompareLayout {
+    override fun setSliderIconBackground(background: Drawable?): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.background = background
         return this
     }
@@ -144,7 +144,7 @@ class VerticalSwipeCompareLayout @JvmOverloads constructor(
         return this
     }
 
-    override fun setSliderIcon(icon: Drawable): VerticalSwipeCompareLayout {
+    override fun setSliderIcon(icon: Drawable?): VerticalSwipeCompareLayout {
         verticalSelectorIcon?.setImageDrawable(icon)
         return this
     }
