@@ -3,7 +3,7 @@ package com.github.marcherdiego.swipecompare.core.base
 import android.app.Application
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.graphics.PorterDuff.Mode
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
@@ -12,13 +12,14 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.test.core.app.ApplicationProvider
 import com.github.marcherdiego.swipecompare.core.HorizontalSwipeCompareLayout
-import com.github.marcherdiego.swipecompare.core.bytesEqualTo
 import com.github.marcherdiego.swipecompare.core.test.R
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.kotlin.spy
+import org.mockito.kotlin.verify
 import org.robolectric.RobolectricTestRunner
 
 @RunWith(RobolectricTestRunner::class)
@@ -64,7 +65,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelector = horizontalSwipeCompareLayout.getHorizontalSelectorBar()
-        assertEquals(sliderBarWidth, horizontalSelector?.layoutParams?.width)
+        assertEquals(sliderBarWidth, horizontalSelector.layoutParams?.width)
     }
 
     @Test
@@ -77,7 +78,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelector = horizontalSwipeCompareLayout.getHorizontalSelectorBar()
-        assertEquals(View.INVISIBLE, horizontalSelector?.visibility)
+        assertEquals(View.INVISIBLE, horizontalSelector.visibility)
     }
 
     @Test
@@ -92,8 +93,8 @@ class HorizontalSwipeCompareLayoutTest {
         // Then
         val horizontalSlider = horizontalSwipeCompareLayout.getHorizontalSlider()
         val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
-        assertEquals(sliderBarPosition, horizontalSlider?.x)
-        assertEquals(sliderIconPosition, horizontalSelectorIcon?.y)
+        assertEquals(sliderBarPosition, horizontalSlider.x)
+        assertEquals(sliderIconPosition, horizontalSelectorIcon.y)
     }
 
     @Test
@@ -106,7 +107,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
-        assertEquals(sliderIconPosition, horizontalSelectorIcon?.y)
+        assertEquals(sliderIconPosition, horizontalSelectorIcon.y)
     }
 
     @Test
@@ -131,8 +132,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelector = horizontalSwipeCompareLayout.getHorizontalSelectorBar()
-        val backgroundColor = horizontalSelector?.background as ColorDrawable
-        assertEquals(color, backgroundColor.color)
+        verify(horizontalSelector).setBackgroundColor(color)
     }
 
     @Test
@@ -145,8 +145,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelector = horizontalSwipeCompareLayout.getHorizontalSelectorBar()
-        val backgroundColor = horizontalSelector?.background as ColorDrawable
-        assertEquals(Color.parseColor("#B00020"), backgroundColor.color)
+        verify(horizontalSelector).setBackgroundColor(Color.parseColor("#B00020"))
     }
 
     @Test
@@ -159,8 +158,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
-        val backgroundColor = horizontalSelectorIcon?.background as ColorDrawable
-        assertEquals(color, backgroundColor.color)
+        verify(horizontalSelectorIcon).setBackgroundColor(color)
     }
 
     @Test
@@ -173,8 +171,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
-        val backgroundColor = horizontalSelectorIcon?.background as ColorDrawable
-        assertEquals(Color.parseColor("#B00020"), backgroundColor.color)
+        verify(horizontalSelectorIcon).setBackgroundColor(Color.parseColor("#B00020"))
     }
 
     @Test
@@ -188,8 +185,8 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
-        assertEquals(width, horizontalSelectorIcon?.layoutParams?.width)
-        assertEquals(height, horizontalSelectorIcon?.layoutParams?.height)
+        assertEquals(width, horizontalSelectorIcon.layoutParams?.width)
+        assertEquals(height, horizontalSelectorIcon.layoutParams?.height)
     }
 
     @Test
@@ -202,8 +199,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
-        val expectedDrawable = context.getDrawable(background)
-        assertTrue(expectedDrawable.bytesEqualTo(horizontalSelectorIcon?.background))
+        verify(horizontalSelectorIcon).setBackgroundResource(background)
     }
 
     @Test
@@ -216,7 +212,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
-        assertTrue(background.bytesEqualTo(horizontalSelectorIcon?.background))
+        verify(horizontalSelectorIcon).background = background
     }
 
     @Test
@@ -229,8 +225,7 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
-        val expectedDrawable = context.getDrawable(background)
-        assertTrue(expectedDrawable.bytesEqualTo(horizontalSelectorIcon?.drawable))
+        verify(horizontalSelectorIcon).setImageResource(background)
     }
 
     @Test
@@ -243,22 +238,70 @@ class HorizontalSwipeCompareLayoutTest {
 
         // Then
         val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
-        assertTrue(background.bytesEqualTo(horizontalSelectorIcon?.drawable))
+        verify(horizontalSelectorIcon).setImageDrawable(background)
+    }
+
+    @Test
+    fun `it should set slider icon tint`() {
+        // Given
+        @ColorRes val colorTint = R.color.design_default_color_error
+
+        // When
+        horizontalSwipeCompareLayout.setSliderIconTint(colorTint)
+
+        // Then
+        val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
+        verify(horizontalSelectorIcon).setColorFilter(Color.parseColor("#B00020"), Mode.SRC_IN)
+    }
+
+    @Test
+    fun `it should set slider icon padding`() {
+        // Given
+        val paddingLeft = 1
+        val paddingTop = 2
+        val paddingRight = 3
+        val paddingBottom = 4
+
+        // When
+        horizontalSwipeCompareLayout.setSliderIconPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+
+        // Then
+        val horizontalSelectorIcon = horizontalSwipeCompareLayout.getHorizontalSelectorIcon()
+        verify(horizontalSelectorIcon).setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+    }
+
+    @Test
+    fun `it should set fixed slider icon to true`() {
+        // Given
+        val fixedIcon = true
+
+        // When
+        horizontalSwipeCompareLayout.setFixedSliderIcon(fixedIcon)
+
+        // Then
+        assertTrue(horizontalSwipeCompareLayout.isFixedHorizontalSliderIcon())
     }
 
     class TestHorizontalSwipeCompareLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
     ) : HorizontalSwipeCompareLayout(context, attrs, defStyleAttr) {
 
+        override fun init() {
+            super.init()
+            horizontalSelectorBar = spy(horizontalSelectorBar)
+            horizontalSlider = spy(horizontalSlider)
+            horizontalSelectorIcon = spy(horizontalSelectorIcon)
+        }
+
         @JvmName("getSelector")
-        fun getHorizontalSelectorBar() = horizontalSelectorBar
+        fun getHorizontalSelectorBar() = horizontalSelectorBar!!
 
         @JvmName("getSlider")
-        fun getHorizontalSlider() = horizontalSlider
+        fun getHorizontalSlider() = horizontalSlider!!
 
         @JvmName("getSelectorIcon")
-        fun getHorizontalSelectorIcon() = horizontalSelectorIcon
+        fun getHorizontalSelectorIcon() = horizontalSelectorIcon!!
 
-        fun getSliderValueListener() = horizontalSliderValueListener
+        fun getSliderValueListener() = horizontalSliderValueListener!!
     }
 }

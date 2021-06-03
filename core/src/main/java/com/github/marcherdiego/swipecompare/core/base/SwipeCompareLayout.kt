@@ -55,7 +55,7 @@ abstract class SwipeCompareLayout<T> @JvmOverloads constructor(
 
     var allowTouchControl = false
 
-    protected fun init() {
+    protected open fun init() {
         topLeftFragmentContainer = findViewById(R.id.fragment_top_left)
         topLeftFragmentContainer?.id = topLeftFragmentContainer.hashCode()
 
@@ -214,4 +214,8 @@ abstract class SwipeCompareLayout<T> @JvmOverloads constructor(
     fun getBottomLeft() = bottomLeftFragmentContainer
 
     fun getBottomRight() = bottomRightFragmentContainer
+
+    fun isFixedHorizontalSliderIcon() = fixedHorizontalSliderIcon
+
+    fun isFixedVerticalSliderIcon() = fixedVerticalSliderIcon
 }
