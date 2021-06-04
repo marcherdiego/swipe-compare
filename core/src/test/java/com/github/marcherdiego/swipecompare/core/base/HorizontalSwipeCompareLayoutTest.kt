@@ -271,7 +271,7 @@ class HorizontalSwipeCompareLayoutTest {
     }
 
     @Test
-    fun `it should set fixed slider icon to true`() {
+    fun `it should set fixed slider icon velue`() {
         // Given
         val fixedIcon = true
 
