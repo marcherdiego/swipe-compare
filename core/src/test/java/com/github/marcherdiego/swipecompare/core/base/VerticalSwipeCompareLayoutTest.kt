@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff.Mode
 import android.util.AttributeSet
 import android.view.View
-import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -26,22 +25,21 @@ import org.robolectric.RobolectricTestRunner
 class VerticalSwipeCompareLayoutTest {
 
     private lateinit var verticalSwipeCompareLayout: TestVerticalSwipeCompareLayout
-    private lateinit var topContainer: FrameLayout
-    private lateinit var bottomContainer: FrameLayout
     private lateinit var context: Context
 
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext<Application>()
         verticalSwipeCompareLayout = TestVerticalSwipeCompareLayout(context)
-        topContainer = verticalSwipeCompareLayout.getTopLeft()!!
-        bottomContainer = verticalSwipeCompareLayout.getBottomLeft()!!
     }
 
     @Test
     fun `it should set views`() {
         // Given
+        val topContainer = verticalSwipeCompareLayout.getTopLeft()!!
         val topView = View(context)
+        
+        val bottomContainer = verticalSwipeCompareLayout.getBottomLeft()!!
         val bottomView = View(context)
 
         // When
@@ -56,7 +54,7 @@ class VerticalSwipeCompareLayoutTest {
     }
 
     @Test
-    fun `it should set slider bar width positive value`() {
+    fun `it should set slider bar height positive value`() {
         // Given
         val sliderBarWidth = 114
 
@@ -64,12 +62,12 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderBarHeight(sliderBarWidth)
 
         // Then
-        val horizontalSelector = verticalSwipeCompareLayout.getVerticalSelectorBar()
-        assertEquals(sliderBarWidth, horizontalSelector.layoutParams?.height)
+        val verticalSelector = verticalSwipeCompareLayout.getVerticalSelectorBar()
+        assertEquals(sliderBarWidth, verticalSelector.layoutParams?.height)
     }
 
     @Test
-    fun `it should set slider bar width zero value`() {
+    fun `it should set slider bar height zero value`() {
         // Given
         val sliderBarWidth = 0
 
@@ -77,8 +75,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderBarHeight(sliderBarWidth)
 
         // Then
-        val horizontalSelector = verticalSwipeCompareLayout.getVerticalSelectorBar()
-        assertEquals(View.INVISIBLE, horizontalSelector.visibility)
+        val verticalSelector = verticalSwipeCompareLayout.getVerticalSelectorBar()
+        assertEquals(View.INVISIBLE, verticalSelector.visibility)
     }
 
     @Test
@@ -91,10 +89,10 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderPosition(sliderBarPosition, sliderIconPosition)
 
         // Then
-        val horizontalSlider = verticalSwipeCompareLayout.getVerticalSlider()
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        assertEquals(sliderBarPosition, horizontalSlider.y)
-        assertEquals(sliderIconPosition, horizontalSelectorIcon.x)
+        val verticalSlider = verticalSwipeCompareLayout.getVerticalSlider()
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        assertEquals(sliderBarPosition, verticalSlider.y)
+        assertEquals(sliderIconPosition, verticalSelectorIcon.x)
     }
 
     @Test
@@ -106,8 +104,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIconPosition(sliderIconPosition)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        assertEquals(sliderIconPosition, horizontalSelectorIcon.x)
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        assertEquals(sliderIconPosition, verticalSelectorIcon.x)
     }
 
     @Test
@@ -131,8 +129,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderBarColor(color)
 
         // Then
-        val horizontalSelector = verticalSwipeCompareLayout.getVerticalSelectorBar()
-        verify(horizontalSelector).setBackgroundColor(color)
+        val verticalSelector = verticalSwipeCompareLayout.getVerticalSelectorBar()
+        verify(verticalSelector).setBackgroundColor(color)
     }
 
     @Test
@@ -144,8 +142,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderBarColorRes(color)
 
         // Then
-        val horizontalSelector = verticalSwipeCompareLayout.getVerticalSelectorBar()
-        verify(horizontalSelector).setBackgroundColor(Color.parseColor("#B00020"))
+        val verticalSelector = verticalSwipeCompareLayout.getVerticalSelectorBar()
+        verify(verticalSelector).setBackgroundColor(Color.parseColor("#B00020"))
     }
 
     @Test
@@ -157,8 +155,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIconColor(color)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        verify(horizontalSelectorIcon).setBackgroundColor(color)
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        verify(verticalSelectorIcon).setBackgroundColor(color)
     }
 
     @Test
@@ -170,8 +168,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIconColorRes(color)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        verify(horizontalSelectorIcon).setBackgroundColor(Color.parseColor("#B00020"))
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        verify(verticalSelectorIcon).setBackgroundColor(Color.parseColor("#B00020"))
     }
 
     @Test
@@ -184,9 +182,9 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIconSize(width, height)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        assertEquals(width, horizontalSelectorIcon.layoutParams?.width)
-        assertEquals(height, horizontalSelectorIcon.layoutParams?.height)
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        assertEquals(width, verticalSelectorIcon.layoutParams?.width)
+        assertEquals(height, verticalSelectorIcon.layoutParams?.height)
     }
 
     @Test
@@ -198,8 +196,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIconBackground(background)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        verify(horizontalSelectorIcon).setBackgroundResource(background)
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        verify(verticalSelectorIcon).setBackgroundResource(background)
     }
 
     @Test
@@ -211,8 +209,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIconBackground(background)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        verify(horizontalSelectorIcon).background = background
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        verify(verticalSelectorIcon).background = background
     }
 
     @Test
@@ -224,8 +222,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIcon(background)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        verify(horizontalSelectorIcon).setImageResource(background)
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        verify(verticalSelectorIcon).setImageResource(background)
     }
 
     @Test
@@ -237,8 +235,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIcon(background)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        verify(horizontalSelectorIcon).setImageDrawable(background)
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        verify(verticalSelectorIcon).setImageDrawable(background)
     }
 
     @Test
@@ -250,8 +248,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIconTint(colorTint)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        verify(horizontalSelectorIcon).setColorFilter(Color.parseColor("#B00020"), Mode.SRC_IN)
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        verify(verticalSelectorIcon).setColorFilter(Color.parseColor("#B00020"), Mode.SRC_IN)
     }
 
     @Test
@@ -266,8 +264,8 @@ class VerticalSwipeCompareLayoutTest {
         verticalSwipeCompareLayout.setSliderIconPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
 
         // Then
-        val horizontalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
-        verify(horizontalSelectorIcon).setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+        val verticalSelectorIcon = verticalSwipeCompareLayout.getVerticalSelectorIcon()
+        verify(verticalSelectorIcon).setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
     }
 
     @Test

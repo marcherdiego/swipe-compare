@@ -181,6 +181,16 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         return this
     }
 
+    fun setHorizontalSliderIconPosition(y: Float): CrosshairSwipeCompareLayout {
+        horizontalSelectorIcon?.y = y
+        return this
+    }
+
+    fun setVerticalSliderIconPosition(x: Float): CrosshairSwipeCompareLayout {
+        verticalSelectorIcon?.x = x
+        return this
+    }
+
     override fun setSliderIconColor(@ColorInt color: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setBackgroundColor(color)
         verticalSelectorIcon?.setBackgroundColor(color)

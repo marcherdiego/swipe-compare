@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff.Mode
 import android.util.AttributeSet
 import android.view.View
-import android.widget.FrameLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -26,22 +25,21 @@ import org.robolectric.RobolectricTestRunner
 class HorizontalSwipeCompareLayoutTest {
 
     private lateinit var horizontalSwipeCompareLayout: TestHorizontalSwipeCompareLayout
-    private lateinit var leftContainer: FrameLayout
-    private lateinit var rightContainer: FrameLayout
     private lateinit var context: Context
 
     @Before
     fun setUp() {
         context = ApplicationProvider.getApplicationContext<Application>()
         horizontalSwipeCompareLayout = TestHorizontalSwipeCompareLayout(context)
-        leftContainer = horizontalSwipeCompareLayout.getTopLeft()!!
-        rightContainer = horizontalSwipeCompareLayout.getTopRight()!!
     }
 
     @Test
     fun `it should set views`() {
         // Given
+        val leftContainer = horizontalSwipeCompareLayout.getTopLeft()!!
         val leftView = View(context)
+        
+        val rightContainer = horizontalSwipeCompareLayout.getTopRight()!!
         val rightView = View(context)
 
         // When
