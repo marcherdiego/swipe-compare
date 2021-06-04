@@ -1,3 +1,5 @@
+[![Nerd's Corner](https://circleci.com/gh/marcherdiego/swipe-compare.svg?style=svg)](https://app.circleci.com/pipelines/github/marcherdiego/swipe-compare)
+
 # Swipe Compare Layout
 Create your own swipe-to-compare layouts with this easy-to-use library.
 Natively built with no additional libraries to process drawing, other than standard Android ones.
