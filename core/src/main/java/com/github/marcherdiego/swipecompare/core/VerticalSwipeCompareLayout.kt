@@ -25,6 +25,38 @@ open class VerticalSwipeCompareLayout @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.vertical_swipe_compare_layout, this)
         init()
+
+        val attributes = context.obtainStyledAttributes(attrs, R.styleable.VerticalSwipeCompareLayout, 0, 0)
+        val topViewId = attributes.getResourceId(R.styleable.VerticalSwipeCompareLayout_vertical_top_view, 0)
+        val bottomViewId = attributes.getResourceId(R.styleable.VerticalSwipeCompareLayout_vertical_bottom_view, 0)
+        val sliderBarHeight = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_bar_height, 0)
+        val sliderBarColor = attributes.getColor(R.styleable.VerticalSwipeCompareLayout_vertical_slider_bar_color, 0)
+        var sliderIconWidth = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_width, 0)
+        val sliderIconHeight = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_height, 0)
+        val sliderIconColor = attributes.getColor(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_color, 0)
+        val sliderIconImage = attributes.getResourceId(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_image, 0)
+        val touchEnabled = attributes.getBoolean(R.styleable.VerticalSwipeCompareLayout_vertical_touch_enabled, true)
+        val fixedSliderIcon = attributes.getBoolean(R.styleable.VerticalSwipeCompareLayout_fixed_vertical_slider_icon, false)
+        attributes.recycle()
+
+        setSliderBarHeight(sliderBarHeight)
+        setSliderBarColor(sliderBarColor)
+        if (sliderIconWidth == 0) {
+            sliderIconWidth = sliderIconHeight
+        }
+        if (sliderIconWidth != 0) {
+            setSliderIconSize(sliderIconWidth, sliderIconHeight)
+        }
+        setSliderIconColor(sliderIconColor)
+        if (sliderIconImage != 0) {
+            setSliderIcon(ContextCompat.getDrawable(context, sliderIconImage))
+        }
+        allowTouchControl = touchEnabled
+        setFixedSliderIcon(fixedSliderIcon)
+
+        val topView = getViewFromId(context, topViewId)
+        val bottomView = getViewFromId(context, bottomViewId)
+        setViews(topView, bottomView)
     }
 
     override fun setupTouchControl() {

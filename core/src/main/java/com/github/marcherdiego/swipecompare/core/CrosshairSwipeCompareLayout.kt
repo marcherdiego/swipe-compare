@@ -35,6 +35,67 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.crosshair_swipe_compare_layout, this)
         init()
+
+        val a = context.obtainStyledAttributes(attrs, R.styleable.CrosshairSwipeCompareLayout, 0, 0)
+        val topLeftViewId = a.getResourceId(R.styleable.CrosshairSwipeCompareLayout_crosshair_top_left_view, 0)
+        val topRightViewId = a.getResourceId(R.styleable.CrosshairSwipeCompareLayout_crosshair_top_right_view, 0)
+        val bottomLeftViewId = a.getResourceId(R.styleable.CrosshairSwipeCompareLayout_crosshair_bottom_left_view, 0)
+        val bottomRightViewId = a.getResourceId(R.styleable.CrosshairSwipeCompareLayout_crosshair_bottom_right_view, 0)
+
+        val horizontalSliderBarWidth = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_bar_width, 0)
+        val horizontalSliderBarColor = a.getColor(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_bar_color, 0)
+        var horizontalSliderIconWidth = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_width, 0)
+        val horizontalSliderIconHeight = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_height, 0)
+        val horizontalSliderIconColor = a.getColor(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_color, 0)
+        val horizontalSliderIconImage = a.getResourceId(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_image, 0)
+
+        val verticalSliderBarHeight = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_bar_height, 0)
+        val verticalSliderBarColor = a.getColor(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_bar_color, 0)
+        var verticalSliderIconWidth = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_width, 0)
+        val verticalSliderIconHeight = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_height, 0)
+        val verticalSliderIconColor = a.getColor(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_color, 0)
+        val verticalSliderIconImage = a.getResourceId(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_image, 0)
+
+        val touchEnabled = a.getBoolean(R.styleable.CrosshairSwipeCompareLayout_crosshair_touch_enabled, true)
+        val fixedSliderIcon = a.getBoolean(R.styleable.CrosshairSwipeCompareLayout_fixed_crosshair_slider_icon, false)
+        a.recycle()
+
+        // Horizontal slider
+        setSliderBarWidth(horizontalSliderBarWidth)
+        setHorizontalSliderBarColor(horizontalSliderBarColor)
+        if (horizontalSliderIconWidth == 0) {
+            horizontalSliderIconWidth = horizontalSliderIconHeight
+        }
+        if (horizontalSliderIconWidth != 0) {
+            setHorizontalSliderIconSize(horizontalSliderIconWidth, horizontalSliderIconHeight)
+        }
+        setHorizontalSliderIconColor(horizontalSliderIconColor)
+        if (horizontalSliderIconImage != 0) {
+            setHorizontalSliderIcon(ContextCompat.getDrawable(context, horizontalSliderIconImage))
+        }
+
+        // Vertical slider
+        setSliderBarHeight(verticalSliderBarHeight)
+        setVerticalSliderBarColor(verticalSliderBarColor)
+        if (verticalSliderIconWidth == 0) {
+            verticalSliderIconWidth = verticalSliderIconHeight
+        }
+        if (verticalSliderIconWidth != 0) {
+            setVerticalSliderIconSize(verticalSliderIconWidth, verticalSliderIconHeight)
+        }
+        setVerticalSliderIconColor(verticalSliderIconColor)
+        if (verticalSliderIconImage != 0) {
+            setVerticalSliderIcon(ContextCompat.getDrawable(context, verticalSliderIconImage))
+        }
+
+        allowTouchControl = touchEnabled
+        setFixedSliderIcon(fixedSliderIcon)
+
+        val topLeftView = getViewFromId(context, topLeftViewId)
+        val topRightView = getViewFromId(context, topRightViewId)
+        val bottomLeftView = getViewFromId(context, bottomLeftViewId)
+        val bottomRightView = getViewFromId(context, bottomRightViewId)
+        setViews(topLeftView, topRightView, bottomLeftView, bottomRightView)
     }
 
     override fun setupTouchControl() {
@@ -175,6 +236,16 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         return this
     }
 
+    fun setHorizontalSliderBarColor(@ColorInt color: Int): CrosshairSwipeCompareLayout {
+        horizontalSelectorBar?.setBackgroundColor(color)
+        return this
+    }
+
+    fun setVerticalSliderBarColor(@ColorInt color: Int): CrosshairSwipeCompareLayout {
+        verticalSelectorBar?.setBackgroundColor(color)
+        return this
+    }
+
     override fun setSliderBarColorRes(@ColorRes color: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
         verticalSelectorBar?.setBackgroundColor(ContextCompat.getColor(context, color))
@@ -197,6 +268,16 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         return this
     }
 
+    fun setHorizontalSliderIconColor(@ColorInt color: Int): CrosshairSwipeCompareLayout {
+        horizontalSelectorIcon?.setBackgroundColor(color)
+        return this
+    }
+
+    fun setVerticalSliderIconColor(@ColorInt color: Int): CrosshairSwipeCompareLayout {
+        verticalSelectorIcon?.setBackgroundColor(color)
+        return this
+    }
+
     override fun setSliderIconColorRes(@ColorRes color: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
         verticalSelectorIcon?.setBackgroundColor(ContextCompat.getColor(context, color))
@@ -207,6 +288,18 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         horizontalSelectorIcon?.layoutParams?.width = width
         horizontalSelectorIcon?.layoutParams?.height = height
 
+        verticalSelectorIcon?.layoutParams?.width = width
+        verticalSelectorIcon?.layoutParams?.height = height
+        return this
+    }
+
+    fun setHorizontalSliderIconSize(width: Int, height: Int): CrosshairSwipeCompareLayout {
+        horizontalSelectorIcon?.layoutParams?.width = width
+        horizontalSelectorIcon?.layoutParams?.height = height
+        return this
+    }
+
+    fun setVerticalSliderIconSize(width: Int, height: Int): CrosshairSwipeCompareLayout {
         verticalSelectorIcon?.layoutParams?.width = width
         verticalSelectorIcon?.layoutParams?.height = height
         return this
@@ -232,6 +325,16 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
 
     override fun setSliderIcon(icon: Drawable?): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setImageDrawable(icon)
+        verticalSelectorIcon?.setImageDrawable(icon)
+        return this
+    }
+
+    fun setHorizontalSliderIcon(icon: Drawable?): CrosshairSwipeCompareLayout {
+        horizontalSelectorIcon?.setImageDrawable(icon)
+        return this
+    }
+
+    fun setVerticalSliderIcon(icon: Drawable?): CrosshairSwipeCompareLayout {
         verticalSelectorIcon?.setImageDrawable(icon)
         return this
     }

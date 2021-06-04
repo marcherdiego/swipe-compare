@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HorizontalSwipeCompareLayout">
+        <attr name="horizontal_left_view" format="reference"/>
+        <attr name="horizontal_right_view" format="reference"/>
+
+        <attr name="horizontal_slider_bar_width" format="dimension"/>
+        <attr name="horizontal_slider_bar_color" format="color"/>
+
+        <attr name="horizontal_slider_icon_width" format="dimension"/>
+        <attr name="horizontal_slider_icon_height" format="dimension"/>
+        <attr name="horizontal_slider_icon_image" format="reference"/>
+        <attr name="horizontal_slider_icon_color" format="color"/>
+
+        <attr name="horizontal_touch_enabled" format="boolean"/>
+        <attr name="fixed_horizontal_slider_icon" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="VerticalSwipeCompareLayout">
+        <attr name="vertical_top_view" format="reference"/>
+        <attr name="vertical_bottom_view" format="reference"/>
+
+        <attr name="vertical_slider_bar_height" format="dimension"/>
+        <attr name="vertical_slider_bar_color" format="color"/>
+
+        <attr name="vertical_slider_icon_width" format="dimension"/>
+        <attr name="vertical_slider_icon_height" format="dimension"/>
+        <attr name="vertical_slider_icon_image" format="reference"/>
+        <attr name="vertical_slider_icon_color" format="color"/>
+
+        <attr name="vertical_touch_enabled" format="boolean"/>
+        <attr name="fixed_vertical_slider_icon" format="boolean"/>
+    </declare-styleable>
+
+    <declare-styleable name="CrosshairSwipeCompareLayout">
+        <attr name="crosshair_top_left_view" format="reference"/>
+        <attr name="crosshair_top_right_view" format="reference"/>
+        <attr name="crosshair_bottom_left_view" format="reference"/>
+        <attr name="crosshair_bottom_right_view" format="reference"/>
+
+        <attr name="crosshair_horizontal_slider_bar_width" format="dimension"/>
+        <attr name="crosshair_horizontal_slider_bar_color" format="color"/>
+
+        <attr name="crosshair_horizontal_slider_icon_width" format="dimension"/>
+        <attr name="crosshair_horizontal_slider_icon_height" format="dimension"/>
+        <attr name="crosshair_horizontal_slider_icon_image" format="reference"/>
+        <attr name="crosshair_horizontal_slider_icon_color" format="color"/>
+
+        <attr name="crosshair_vertical_slider_bar_height" format="dimension"/>
+        <attr name="crosshair_vertical_slider_bar_color" format="color"/>
+
+        <attr name="crosshair_vertical_slider_icon_width" format="dimension"/>
+        <attr name="crosshair_vertical_slider_icon_height" format="dimension"/>
+        <attr name="crosshair_vertical_slider_icon_image" format="reference"/>
+        <attr name="crosshair_vertical_slider_icon_color" format="color"/>
+
+        <attr name="crosshair_touch_enabled" format="boolean"/>
+        <attr name="fixed_crosshair_slider_icon" format="boolean"/>
+    </declare-styleable>
+</resources>

@@ -25,6 +25,38 @@ open class HorizontalSwipeCompareLayout @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.horizontal_swipe_compare_layout, this)
         init()
+
+        val attributes = context.obtainStyledAttributes(attrs, R.styleable.HorizontalSwipeCompareLayout, 0, 0)
+        val leftViewId = attributes.getResourceId(R.styleable.HorizontalSwipeCompareLayout_horizontal_left_view, 0)
+        val rightViewId = attributes.getResourceId(R.styleable.HorizontalSwipeCompareLayout_horizontal_right_view, 0)
+        val sliderBarWidth = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_bar_width, 0)
+        val sliderBarColor = attributes.getColor(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_bar_color, 0)
+        var sliderIconWidth = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_width, 0)
+        val sliderIconHeight = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_height, 0)
+        val sliderIconColor = attributes.getColor(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_color, 0)
+        val sliderIconImage = attributes.getResourceId(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_image, 0)
+        val touchEnabled = attributes.getBoolean(R.styleable.HorizontalSwipeCompareLayout_horizontal_touch_enabled, true)
+        val fixedSliderIcon = attributes.getBoolean(R.styleable.HorizontalSwipeCompareLayout_fixed_horizontal_slider_icon, false)
+        attributes.recycle()
+
+        setSliderBarWidth(sliderBarWidth)
+        setSliderBarColor(sliderBarColor)
+        if (sliderIconWidth == 0) {
+            sliderIconWidth = sliderIconHeight
+        }
+        if (sliderIconWidth != 0) {
+            setSliderIconSize(sliderIconWidth, sliderIconHeight)
+        }
+        setSliderIconColor(sliderIconColor)
+        if (sliderIconImage != 0) {
+            setSliderIcon(ContextCompat.getDrawable(context, sliderIconImage))
+        }
+        allowTouchControl = touchEnabled
+        setFixedSliderIcon(fixedSliderIcon)
+
+        val leftView = getViewFromId(context, leftViewId)
+        val rightView = getViewFromId(context, rightViewId)
+        setViews(leftView, rightView)
     }
 
     override fun setupTouchControl() {

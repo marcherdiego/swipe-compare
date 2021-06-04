@@ -4,10 +4,12 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.ImageView.ScaleType.CENTER_CROP
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
@@ -53,7 +55,7 @@ abstract class SwipeCompareLayout<T> @JvmOverloads constructor(
     protected var fixedHorizontalSliderIcon = false
     protected var fixedVerticalSliderIcon = false
 
-    var allowTouchControl = false
+    var allowTouchControl = true
 
     protected open fun init() {
         topLeftFragmentContainer = findViewById(R.id.fragment_top_left)
@@ -87,6 +89,21 @@ abstract class SwipeCompareLayout<T> @JvmOverloads constructor(
         setupTouchControl()
 
         setWillNotDraw(false)
+    }
+
+    protected fun getViewFromId(context: Context, id: Int): View {
+        return try {
+            when (context.resources.getResourceTypeName(id)) {
+                RESOURCE_TYPE_LAYOUT -> LayoutInflater.from(context).inflate(id, null)
+                RESOURCE_TYPE_DRAWABLE -> ImageView(context).apply {
+                    scaleType = CENTER_CROP
+                    setImageResource(id)
+                }
+                else -> getFullScreenView(context)
+            }
+        } catch (e: Exception) {
+            getFullScreenView(context)
+        }
     }
 
     protected abstract fun setupTouchControl()
@@ -199,14 +216,6 @@ abstract class SwipeCompareLayout<T> @JvmOverloads constructor(
 
     abstract fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int): T
 
-    private fun adjustToBounds(value: Float, lowerBound: Int, upperBound: Int): Float {
-        return when {
-            value < lowerBound -> lowerBound.toFloat()
-            value > upperBound -> upperBound.toFloat()
-            else -> value
-        }
-    }
-
     fun getTopLeft() = topLeftFragmentContainer
 
     fun getTopRight() = topRightFragmentContainer
@@ -218,4 +227,23 @@ abstract class SwipeCompareLayout<T> @JvmOverloads constructor(
     fun isFixedHorizontalSliderIcon() = fixedHorizontalSliderIcon
 
     fun isFixedVerticalSliderIcon() = fixedVerticalSliderIcon
+
+    private fun adjustToBounds(value: Float, lowerBound: Int, upperBound: Int): Float {
+        return when {
+            value < lowerBound -> lowerBound.toFloat()
+            value > upperBound -> upperBound.toFloat()
+            else -> value
+        }
+    }
+
+    private fun getFullScreenView(context: Context): View {
+        return View(context).apply {
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
+        }
+    }
+
+    companion object {
+        private const val RESOURCE_TYPE_DRAWABLE = "drawable"
+        private const val RESOURCE_TYPE_LAYOUT = "layout"
+    }
 }
