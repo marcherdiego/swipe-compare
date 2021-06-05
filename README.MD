@@ -51,7 +51,7 @@ horizontalSwipeCompareLayout
     }
 ```
 
-#### Setup with Views
+#### Setup with Views (Programmatically)
 replace 
 ```kotlin
 horizontalSwipeCompareLayout
@@ -120,7 +120,7 @@ crosshairSwipeCompareLayout
         // Do something with `x` and `y`
     }
 ```
-#### Setup with Views
+#### Setup with Views (Programmatically)
 replace 
 ```kotlin
 crosshairSwipeCompareLayout
