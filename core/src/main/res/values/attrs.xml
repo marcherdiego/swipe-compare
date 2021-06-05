@@ -11,6 +11,10 @@
         <attr name="horizontal_slider_icon_height" format="dimension"/>
         <attr name="horizontal_slider_icon_image" format="reference"/>
         <attr name="horizontal_slider_icon_color" format="color"/>
+        <attr name="horizontal_slider_icon_padding_left" format="dimension"/>
+        <attr name="horizontal_slider_icon_padding_top" format="dimension"/>
+        <attr name="horizontal_slider_icon_padding_right" format="dimension"/>
+        <attr name="horizontal_slider_icon_padding_bottom" format="dimension"/>
 
         <attr name="horizontal_touch_enabled" format="boolean"/>
         <attr name="fixed_horizontal_slider_icon" format="boolean"/>
@@ -27,6 +31,10 @@
         <attr name="vertical_slider_icon_height" format="dimension"/>
         <attr name="vertical_slider_icon_image" format="reference"/>
         <attr name="vertical_slider_icon_color" format="color"/>
+        <attr name="vertical_slider_icon_padding_left" format="dimension"/>
+        <attr name="vertical_slider_icon_padding_top" format="dimension"/>
+        <attr name="vertical_slider_icon_padding_right" format="dimension"/>
+        <attr name="vertical_slider_icon_padding_bottom" format="dimension"/>
 
         <attr name="vertical_touch_enabled" format="boolean"/>
         <attr name="fixed_vertical_slider_icon" format="boolean"/>
@@ -45,6 +53,10 @@
         <attr name="crosshair_horizontal_slider_icon_height" format="dimension"/>
         <attr name="crosshair_horizontal_slider_icon_image" format="reference"/>
         <attr name="crosshair_horizontal_slider_icon_color" format="color"/>
+        <attr name="crosshair_horizontal_slider_icon_padding_left" format="dimension"/>
+        <attr name="crosshair_horizontal_slider_icon_padding_top" format="dimension"/>
+        <attr name="crosshair_horizontal_slider_icon_padding_right" format="dimension"/>
+        <attr name="crosshair_horizontal_slider_icon_padding_bottom" format="dimension"/>
 
         <attr name="crosshair_vertical_slider_bar_height" format="dimension"/>
         <attr name="crosshair_vertical_slider_bar_color" format="color"/>
@@ -53,6 +65,10 @@
         <attr name="crosshair_vertical_slider_icon_height" format="dimension"/>
         <attr name="crosshair_vertical_slider_icon_image" format="reference"/>
         <attr name="crosshair_vertical_slider_icon_color" format="color"/>
+        <attr name="crosshair_vertical_slider_icon_padding_left" format="dimension"/>
+        <attr name="crosshair_vertical_slider_icon_padding_top" format="dimension"/>
+        <attr name="crosshair_vertical_slider_icon_padding_right" format="dimension"/>
+        <attr name="crosshair_vertical_slider_icon_padding_bottom" format="dimension"/>
 
         <attr name="crosshair_touch_enabled" format="boolean"/>
         <attr name="fixed_crosshair_slider_icon" format="boolean"/>

@@ -48,6 +48,10 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         val horizontalSliderIconHeight = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_height, 0)
         val horizontalSliderIconColor = a.getColor(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_color, 0)
         val horizontalSliderIconImage = a.getResourceId(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_image, 0)
+        val horizontalSliderIconPaddingLeft = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_padding_left, 0)
+        val horizontalSliderIconPaddingTop = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_padding_top, 0)
+        val horizontalSliderIconPaddingRight = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_padding_right, 0)
+        val horizontalSliderIconPaddingBottom = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_horizontal_slider_icon_padding_bottom, 0)
 
         val verticalSliderBarHeight = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_bar_height, 0)
         val verticalSliderBarColor = a.getColor(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_bar_color, 0)
@@ -55,6 +59,10 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         val verticalSliderIconHeight = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_height, 0)
         val verticalSliderIconColor = a.getColor(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_color, 0)
         val verticalSliderIconImage = a.getResourceId(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_image, 0)
+        val verticalSliderIconPaddingLeft = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_padding_left, 0)
+        val verticalSliderIconPaddingTop = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_padding_top, 0)
+        val verticalSliderIconPaddingRight = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_padding_right, 0)
+        val verticalSliderIconPaddingBottom = a.getDimensionPixelSize(R.styleable.CrosshairSwipeCompareLayout_crosshair_vertical_slider_icon_padding_bottom, 0)
 
         val touchEnabled = a.getBoolean(R.styleable.CrosshairSwipeCompareLayout_crosshair_touch_enabled, true)
         val fixedSliderIcon = a.getBoolean(R.styleable.CrosshairSwipeCompareLayout_fixed_crosshair_slider_icon, false)
@@ -73,6 +81,7 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         if (horizontalSliderIconImage != 0) {
             setHorizontalSliderIcon(ContextCompat.getDrawable(context, horizontalSliderIconImage))
         }
+        setHorizontalSliderIconPadding(horizontalSliderIconPaddingLeft, horizontalSliderIconPaddingTop, horizontalSliderIconPaddingRight, horizontalSliderIconPaddingBottom)
 
         // Vertical slider
         setSliderBarHeight(verticalSliderBarHeight)
@@ -87,6 +96,7 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
         if (verticalSliderIconImage != 0) {
             setVerticalSliderIcon(ContextCompat.getDrawable(context, verticalSliderIconImage))
         }
+        setVerticalSliderIconPadding(verticalSliderIconPaddingLeft, verticalSliderIconPaddingTop, verticalSliderIconPaddingRight, verticalSliderIconPaddingBottom)
 
         allowTouchControl = touchEnabled
         setFixedSliderIcon(fixedSliderIcon)
@@ -347,6 +357,16 @@ open class CrosshairSwipeCompareLayout @JvmOverloads constructor(
 
     override fun setSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int): CrosshairSwipeCompareLayout {
         horizontalSelectorIcon?.setPadding(left, top, right, bottom)
+        verticalSelectorIcon?.setPadding(left, top, right, bottom)
+        return this
+    }
+
+    fun setHorizontalSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int): CrosshairSwipeCompareLayout {
+        horizontalSelectorIcon?.setPadding(left, top, right, bottom)
+        return this
+    }
+
+    fun setVerticalSliderIconPadding(left: Int, top: Int, right: Int, bottom: Int): CrosshairSwipeCompareLayout {
         verticalSelectorIcon?.setPadding(left, top, right, bottom)
         return this
     }

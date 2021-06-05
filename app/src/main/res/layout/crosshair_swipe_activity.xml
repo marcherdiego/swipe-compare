@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:padding="16dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/combined_controls_switch"
@@ -18,6 +18,29 @@
         android:id="@+id/crosshair_swipe_compare"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        app:crosshair_bottom_left_view="@drawable/ss1"
+        app:crosshair_bottom_right_view="@drawable/ss2"
+        app:crosshair_horizontal_slider_bar_color="@color/white"
+        app:crosshair_horizontal_slider_bar_width="@dimen/bar_width"
+        app:crosshair_horizontal_slider_icon_height="@dimen/icon_size"
+        app:crosshair_horizontal_slider_icon_image="@drawable/circle_background"
+        app:crosshair_horizontal_slider_icon_padding_bottom="@dimen/icon_padding"
+        app:crosshair_horizontal_slider_icon_padding_left="@dimen/icon_padding"
+        app:crosshair_horizontal_slider_icon_padding_right="@dimen/icon_padding"
+        app:crosshair_horizontal_slider_icon_padding_top="@dimen/icon_padding"
+        app:crosshair_horizontal_slider_icon_width="@dimen/icon_size"
+        app:crosshair_top_left_view="@drawable/img1"
+        app:crosshair_top_right_view="@drawable/img2"
+        app:crosshair_touch_enabled="false"
+        app:crosshair_vertical_slider_bar_color="@color/white"
+        app:crosshair_vertical_slider_bar_height="@dimen/bar_height"
+        app:crosshair_vertical_slider_icon_height="@dimen/icon_size"
+        app:crosshair_vertical_slider_icon_image="@drawable/circle_background"
+        app:crosshair_vertical_slider_icon_width="@dimen/icon_size"
+        app:crosshair_vertical_slider_icon_padding_bottom="@dimen/icon_padding"
+        app:crosshair_vertical_slider_icon_padding_left="@dimen/icon_padding"
+        app:crosshair_vertical_slider_icon_padding_right="@dimen/icon_padding"
+        app:crosshair_vertical_slider_icon_padding_top="@dimen/icon_padding"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/combined_controls_switch"/>
 

@@ -85,6 +85,17 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slider_position_layout"/>
+        app:layout_constraintTop_toBottomOf="@+id/slider_position_layout"
+        app:vertical_bottom_view="@drawable/img2"
+        app:vertical_slider_bar_color="@color/white"
+        app:vertical_slider_bar_height="@dimen/bar_height"
+        app:vertical_slider_icon_height="@dimen/icon_size"
+        app:vertical_slider_icon_image="@drawable/circle_background"
+        app:vertical_slider_icon_padding_bottom="@dimen/icon_padding"
+        app:vertical_slider_icon_padding_left="@dimen/icon_padding"
+        app:vertical_slider_icon_padding_right="@dimen/icon_padding"
+        app:vertical_slider_icon_padding_top="@dimen/icon_padding"
+        app:vertical_slider_icon_width="@dimen/icon_size"
+        app:vertical_top_view="@drawable/img1"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

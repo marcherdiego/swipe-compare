@@ -29,7 +29,18 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
+        app:horizontal_slider_bar_color="@color/white"
+        app:horizontal_slider_icon_image="@drawable/circle_background"
+        app:horizontal_slider_icon_padding_left="@dimen/icon_padding"
+        app:horizontal_slider_icon_padding_top="@dimen/icon_padding"
+        app:horizontal_slider_icon_padding_right="@dimen/icon_padding"
+        app:horizontal_slider_icon_padding_bottom="@dimen/icon_padding"
+        app:horizontal_left_view="@drawable/img1"
+        app:horizontal_right_view="@drawable/img2"
         app:layout_constraintBottom_toTopOf="@+id/horizontal_divider"
+        app:horizontal_slider_bar_width="@dimen/bar_width"
+        app:horizontal_slider_icon_width="@dimen/icon_size"
+        app:horizontal_slider_icon_height="@dimen/icon_size"
         app:layout_constraintTop_toBottomOf="@+id/bar_width_slider"/>
 
     <androidx.constraintlayout.widget.Guideline

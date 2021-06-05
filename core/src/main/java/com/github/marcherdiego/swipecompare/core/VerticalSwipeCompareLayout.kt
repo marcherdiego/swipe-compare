@@ -37,6 +37,10 @@ open class VerticalSwipeCompareLayout @JvmOverloads constructor(
         val sliderIconImage = attributes.getResourceId(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_image, 0)
         val touchEnabled = attributes.getBoolean(R.styleable.VerticalSwipeCompareLayout_vertical_touch_enabled, true)
         val fixedSliderIcon = attributes.getBoolean(R.styleable.VerticalSwipeCompareLayout_fixed_vertical_slider_icon, false)
+        val verticalSliderIconPaddingLeft = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_left, 0)
+        val verticalSliderIconPaddingTop = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_top, 0)
+        val verticalSliderIconPaddingRight = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_right, 0)
+        val verticalSliderIconPaddingBottom = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_bottom, 0)
         attributes.recycle()
 
         setSliderBarHeight(sliderBarHeight)
@@ -53,6 +57,7 @@ open class VerticalSwipeCompareLayout @JvmOverloads constructor(
         }
         allowTouchControl = touchEnabled
         setFixedSliderIcon(fixedSliderIcon)
+        setSliderIconPadding(verticalSliderIconPaddingLeft, verticalSliderIconPaddingTop, verticalSliderIconPaddingRight, verticalSliderIconPaddingBottom)
 
         val topView = getViewFromId(context, topViewId)
         val bottomView = getViewFromId(context, bottomViewId)

@@ -37,6 +37,10 @@ open class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         val sliderIconImage = attributes.getResourceId(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_image, 0)
         val touchEnabled = attributes.getBoolean(R.styleable.HorizontalSwipeCompareLayout_horizontal_touch_enabled, true)
         val fixedSliderIcon = attributes.getBoolean(R.styleable.HorizontalSwipeCompareLayout_fixed_horizontal_slider_icon, false)
+        val horizontalSliderIconPaddingLeft = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_left, 0)
+        val horizontalSliderIconPaddingTop = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_top, 0)
+        val horizontalSliderIconPaddingRight = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_right, 0)
+        val horizontalSliderIconPaddingBottom = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_bottom, 0)
         attributes.recycle()
 
         setSliderBarWidth(sliderBarWidth)
@@ -53,6 +57,7 @@ open class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         }
         allowTouchControl = touchEnabled
         setFixedSliderIcon(fixedSliderIcon)
+        setSliderIconPadding(horizontalSliderIconPaddingLeft, horizontalSliderIconPaddingTop, horizontalSliderIconPaddingRight, horizontalSliderIconPaddingBottom)
 
         val leftView = getViewFromId(context, leftViewId)
         val rightView = getViewFromId(context, rightViewId)

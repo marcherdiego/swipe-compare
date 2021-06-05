@@ -3,8 +3,6 @@ package com.github.marcherdiego.swipecompare.ui.mvp.view
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.ImageView.ScaleType.CENTER_CROP
 import android.widget.TextView
 import com.github.marcherdiego.swipecompare.R
 import com.github.marcherdiego.swipecompare.core.HorizontalSwipeCompareLayout
@@ -63,29 +61,11 @@ class HorizontalSwipeView(activity: HorizontalSwipeActivity) : BaseActivityView(
         val sliderBarWidth = resources.getDimensionPixelSize(R.dimen.bar_width)
         val sliderIconSize = resources.getDimensionPixelSize(R.dimen.icon_size)
 
-        horizontalSwipeCompareLayout1
-            .setSliderBarColorRes(R.color.white)
-            .setSliderIconBackground(R.drawable.circle_background)
-            .setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
-            .setFragments(fragmentManager = activity.supportFragmentManager, leftFragment = LeftFragment(), rightFragment = RightFragment())
-            .setSliderBarWidth(sliderBarWidth)
-            .setSliderIconSize(sliderIconSize, sliderIconSize)
-
-
         horizontalSwipeCompareLayout2
             .setSliderBarColorRes(R.color.white)
             .setSliderIconBackground(R.drawable.circle_background)
             .setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
-            .setViews(
-                leftView = ImageView(activity).apply {
-                    scaleType = CENTER_CROP
-                    setImageResource(R.drawable.img1)
-                },
-                rightView = ImageView(activity).apply {
-                    scaleType = CENTER_CROP
-                    setImageResource(R.drawable.img2)
-                }
-            )
+            .setFragments(fragmentManager = activity.supportFragmentManager, leftFragment = LeftFragment(), rightFragment = RightFragment())
             .setSliderBarWidth(sliderBarWidth)
             .setSliderIconSize(sliderIconSize, sliderIconSize)
             .setSliderPositionChangedListener {

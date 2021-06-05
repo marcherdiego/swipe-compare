@@ -33,26 +33,4 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vertical_compare_button"/>
 
-    <com.github.marcherdiego.swipecompare.core.CrosshairSwipeCompareLayout
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        app:crosshair_bottom_left_view="@layout/bottom_left_fragment"
-        app:crosshair_bottom_right_view="@drawable/ss2"
-        app:crosshair_horizontal_slider_bar_color="#FFFFFF"
-        app:crosshair_horizontal_slider_bar_width="@dimen/bar_width"
-        app:crosshair_horizontal_slider_icon_color="#FF0000"
-        app:crosshair_horizontal_slider_icon_height="16dp"
-        app:crosshair_horizontal_slider_icon_width="16dp"
-        app:crosshair_vertical_slider_bar_color="#FFFFFF"
-        app:crosshair_vertical_slider_bar_height="@dimen/bar_height"
-        app:crosshair_vertical_slider_icon_color="#FF0000"
-        app:crosshair_vertical_slider_icon_height="16dp"
-        app:crosshair_vertical_slider_icon_width="16dp"
-        app:crosshair_top_left_view="@drawable/ss1"
-        app:crosshair_top_right_view="@layout/top_right_fragment"
-        app:crosshair_touch_enabled="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crosshair_compare_button"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

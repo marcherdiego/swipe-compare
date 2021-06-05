@@ -3,8 +3,6 @@ package com.github.marcherdiego.swipecompare.ui.mvp.view
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.ImageView.ScaleType.CENTER_CROP
 import android.widget.TextView
 import com.github.marcherdiego.swipecompare.R
 import com.github.marcherdiego.swipecompare.core.VerticalSwipeCompareLayout
@@ -70,28 +68,12 @@ class VerticalSwipeView(activity: VerticalSwipeActivity) : BaseActivityView(acti
             .setSliderBarHeight(sliderBarHeight)
             .setSliderIconSize(sliderIconSize, sliderIconSize)
 
-        verticalSwipeCompareLayout2
-            .setSliderBarColorRes(R.color.white)
-            .setSliderIconBackground(R.drawable.circle_background)
-            .setSliderIconPadding(sliderIconPadding, sliderIconPadding, sliderIconPadding, sliderIconPadding)
-            .setViews(
-                topView = ImageView(activity).apply {
-                    scaleType = CENTER_CROP
-                    setImageResource(R.drawable.img1)
-                },
-                bottomView = ImageView(activity).apply {
-                    scaleType = CENTER_CROP
-                    setImageResource(R.drawable.img2)
-                }
-            )
-            .setSliderBarHeight(sliderBarHeight)
-            .setSliderIconSize(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
-            .setSliderPositionChangedListener {
-                sliderPosition.removeTextChangedListener(textWatcher)
-                bus.post(SliderPositionChangedEvent(it))
-                sliderPosition.addTextChangedListener(textWatcher)
-                sliderPosition.setSelection(sliderPosition.text?.length ?: 0)
-            }
+        verticalSwipeCompareLayout2.setSliderPositionChangedListener {
+            sliderPosition.removeTextChangedListener(textWatcher)
+            bus.post(SliderPositionChangedEvent(it))
+            sliderPosition.addTextChangedListener(textWatcher)
+            sliderPosition.setSelection(sliderPosition.text?.length ?: 0)
+        }
     }
 
     fun setBarHeight(height: Int) {
