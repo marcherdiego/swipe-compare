@@ -25,5 +25,5 @@ ext {
     groupId = "com.github.marcherdiego.swipecompare"
 
     libraryArtifactName = "core"
-    libraryVersion = "1.1.0"
+    libraryVersion = "1.2.0"
 }
