@@ -2,7 +2,6 @@ package com.github.marcherdiego.swipecompare.core
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.PorterDuff.Mode
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -16,6 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
+import com.github.marcherdiego.swipecompare.core.extensions.getDimen
+import com.github.marcherdiego.swipecompare.core.extensions.getColor
+import com.github.marcherdiego.swipecompare.core.extensions.getResId
+import com.github.marcherdiego.swipecompare.core.extensions.getBoolean
 
 @SuppressLint("ClickableViewAccessibility")
 open class VerticalSwipeCompareLayout @JvmOverloads constructor(
@@ -26,22 +29,22 @@ open class VerticalSwipeCompareLayout @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.vertical_swipe_compare_layout, this)
         init()
 
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.VerticalSwipeCompareLayout, 0, 0)
-        val topViewId = attributes.getResourceId(R.styleable.VerticalSwipeCompareLayout_vertical_top_view, 0)
-        val bottomViewId = attributes.getResourceId(R.styleable.VerticalSwipeCompareLayout_vertical_bottom_view, 0)
-        val sliderBarHeight = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_bar_height, 0)
-        val sliderBarColor = attributes.getColor(R.styleable.VerticalSwipeCompareLayout_vertical_slider_bar_color, 0)
-        var sliderIconWidth = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_width, 0)
-        val sliderIconHeight = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_height, 0)
-        val sliderIconColor = attributes.getColor(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_color, 0)
-        val sliderIconImage = attributes.getResourceId(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_image, 0)
-        val touchEnabled = attributes.getBoolean(R.styleable.VerticalSwipeCompareLayout_vertical_touch_enabled, true)
-        val fixedSliderIcon = attributes.getBoolean(R.styleable.VerticalSwipeCompareLayout_fixed_vertical_slider_icon, false)
-        val verticalSliderIconPaddingLeft = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_left, 0)
-        val verticalSliderIconPaddingTop = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_top, 0)
-        val verticalSliderIconPaddingRight = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_right, 0)
-        val verticalSliderIconPaddingBottom = attributes.getDimensionPixelSize(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_bottom, 0)
-        attributes.recycle()
+        val attr = context.obtainStyledAttributes(attrs, R.styleable.VerticalSwipeCompareLayout, 0, 0)
+        val topViewId = attr.getResId(R.styleable.VerticalSwipeCompareLayout_vertical_top_view)
+        val bottomViewId = attr.getResId(R.styleable.VerticalSwipeCompareLayout_vertical_bottom_view)
+        val sliderBarHeight = attr.getDimen(R.styleable.VerticalSwipeCompareLayout_vertical_slider_bar_height)
+        val sliderBarColor = attr.getColor(R.styleable.VerticalSwipeCompareLayout_vertical_slider_bar_color)
+        var sliderIconWidth = attr.getDimen(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_width)
+        val sliderIconHeight = attr.getDimen(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_height)
+        val sliderIconColor = attr.getColor(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_color)
+        val sliderIconImage = attr.getResId(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_image)
+        val touchEnabled = attr.getBoolean(R.styleable.VerticalSwipeCompareLayout_vertical_touch_enabled, true)
+        val fixedSliderIcon = attr.getBoolean(R.styleable.VerticalSwipeCompareLayout_fixed_vertical_slider_icon)
+        val verticalSliderIconPaddingLeft = attr.getDimen(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_left)
+        val verticalSliderIconPaddingTop = attr.getDimen(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_top)
+        val verticalSliderIconPaddingRight = attr.getDimen(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_right)
+        val verticalSliderIconPaddingBottom = attr.getDimen(R.styleable.VerticalSwipeCompareLayout_vertical_slider_icon_padding_bottom)
+        attr.recycle()
 
         setSliderBarHeight(sliderBarHeight)
         setSliderBarColor(sliderBarColor)
@@ -80,12 +83,11 @@ open class VerticalSwipeCompareLayout @JvmOverloads constructor(
         }
     }
 
-    @SuppressLint("DrawAllocation")
-    override fun onDraw(canvas: Canvas?) {
+    override fun invalidate() {
         val bottomLine = (verticalSlider?.y?.toInt() ?: 0) + verticalSelectorHeight
         topLeftFragmentContainer?.clipBounds = Rect(0, 0, width, bottomLine)
         bottomLeftFragmentContainer?.clipBounds = Rect(0, bottomLine, width, height)
-        super.onDraw(canvas)
+        super.invalidate()
     }
 
     fun setFragments(fragmentManager: FragmentManager, topFragment: Fragment, bottomFragment: Fragment): VerticalSwipeCompareLayout {
