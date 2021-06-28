@@ -2,7 +2,6 @@ package com.github.marcherdiego.swipecompare.core
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.PorterDuff.Mode
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
@@ -16,6 +15,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.github.marcherdiego.swipecompare.core.base.SwipeCompareLayout
+import com.github.marcherdiego.swipecompare.core.extensions.getDimen
+import com.github.marcherdiego.swipecompare.core.extensions.getResId
+import com.github.marcherdiego.swipecompare.core.extensions.getBoolean
+import com.github.marcherdiego.swipecompare.core.extensions.getColor
 
 @SuppressLint("ClickableViewAccessibility")
 open class HorizontalSwipeCompareLayout @JvmOverloads constructor(
@@ -26,22 +29,22 @@ open class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.horizontal_swipe_compare_layout, this)
         init()
 
-        val attributes = context.obtainStyledAttributes(attrs, R.styleable.HorizontalSwipeCompareLayout, 0, 0)
-        val leftViewId = attributes.getResourceId(R.styleable.HorizontalSwipeCompareLayout_horizontal_left_view, 0)
-        val rightViewId = attributes.getResourceId(R.styleable.HorizontalSwipeCompareLayout_horizontal_right_view, 0)
-        val sliderBarWidth = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_bar_width, 0)
-        val sliderBarColor = attributes.getColor(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_bar_color, 0)
-        var sliderIconWidth = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_width, 0)
-        val sliderIconHeight = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_height, 0)
-        val sliderIconColor = attributes.getColor(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_color, 0)
-        val sliderIconImage = attributes.getResourceId(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_image, 0)
-        val touchEnabled = attributes.getBoolean(R.styleable.HorizontalSwipeCompareLayout_horizontal_touch_enabled, true)
-        val fixedSliderIcon = attributes.getBoolean(R.styleable.HorizontalSwipeCompareLayout_fixed_horizontal_slider_icon, false)
-        val horizontalSliderIconPaddingLeft = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_left, 0)
-        val horizontalSliderIconPaddingTop = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_top, 0)
-        val horizontalSliderIconPaddingRight = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_right, 0)
-        val horizontalSliderIconPaddingBottom = attributes.getDimensionPixelSize(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_bottom, 0)
-        attributes.recycle()
+        val a = context.obtainStyledAttributes(attrs, R.styleable.HorizontalSwipeCompareLayout, 0, 0)
+        val leftViewId = a.getResId(R.styleable.HorizontalSwipeCompareLayout_horizontal_left_view)
+        val rightViewId = a.getResId(R.styleable.HorizontalSwipeCompareLayout_horizontal_right_view)
+        val sliderBarWidth = a.getDimen(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_bar_width)
+        val sliderBarColor = a.getColor(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_bar_color)
+        var sliderIconWidth = a.getDimen(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_width)
+        val sliderIconHeight = a.getDimen(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_height)
+        val sliderIconColor = a.getColor(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_color)
+        val sliderIconImage = a.getResId(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_image)
+        val touchEnabled = a.getBoolean(R.styleable.HorizontalSwipeCompareLayout_horizontal_touch_enabled, true)
+        val fixedSliderIcon = a.getBoolean(R.styleable.HorizontalSwipeCompareLayout_fixed_horizontal_slider_icon)
+        val horizontalIconPaddingLeft = a.getDimen(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_left)
+        val horizontalIconPaddingTop = a.getDimen(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_top)
+        val horizontalIconPaddingRight = a.getDimen(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_right)
+        val horizontalIconPaddingBottom = a.getDimen(R.styleable.HorizontalSwipeCompareLayout_horizontal_slider_icon_padding_bottom)
+        a.recycle()
 
         setSliderBarWidth(sliderBarWidth)
         setSliderBarColor(sliderBarColor)
@@ -57,7 +60,7 @@ open class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         }
         allowTouchControl = touchEnabled
         setFixedSliderIcon(fixedSliderIcon)
-        setSliderIconPadding(horizontalSliderIconPaddingLeft, horizontalSliderIconPaddingTop, horizontalSliderIconPaddingRight, horizontalSliderIconPaddingBottom)
+        setSliderIconPadding(horizontalIconPaddingLeft, horizontalIconPaddingTop, horizontalIconPaddingRight, horizontalIconPaddingBottom)
 
         val leftView = getViewFromId(context, leftViewId)
         val rightView = getViewFromId(context, rightViewId)
@@ -80,12 +83,11 @@ open class HorizontalSwipeCompareLayout @JvmOverloads constructor(
         }
     }
 
-    @SuppressLint("DrawAllocation")
-    override fun onDraw(canvas: Canvas?) {
+    override fun invalidate() {
         val rightLine = (horizontalSlider?.x?.toInt() ?: 0) + horizontalSelectorWidth
         topLeftFragmentContainer?.clipBounds = Rect(0, 0, rightLine, height)
         topRightFragmentContainer?.clipBounds = Rect(rightLine, 0, width, height)
-        super.onDraw(canvas)
+        super.invalidate()
     }
 
     fun setFragments(fragmentManager: FragmentManager, leftFragment: Fragment, rightFragment: Fragment): HorizontalSwipeCompareLayout {
